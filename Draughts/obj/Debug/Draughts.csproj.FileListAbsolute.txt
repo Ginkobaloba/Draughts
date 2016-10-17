@@ -1,0 +1,26 @@
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\bin\Debug\Draughts.exe.config
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\bin\Debug\Draughts.exe
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\bin\Debug\Draughts.pdb
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\obj\Debug\Draughts.csprojResolveAssemblyReference.cache
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\obj\Debug\Draughts.Form1.resources
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\obj\Debug\Draughts.Properties.Resources.resources
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\obj\Debug\Draughts.csproj.GenerateResource.Cache
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\obj\Debug\Draughts.exe
+C:\Users\Drama\AppData\Local\Temporary Projects\Draughts\obj\Debug\Draughts.pdb
+C:\Users\Drama\Desktop\Draughts1\Draughts\bin\Debug\Draughts.exe.config
+C:\Users\Drama\Desktop\Draughts1\Draughts\obj\Debug\Draughts.exe
+C:\Users\Drama\Desktop\Draughts1\Draughts\obj\Debug\Draughts.pdb
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\Draughts.exe.config
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.exe
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.pdb
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\Draughts.exe
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\Draughts.pdb
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\EntityFramework.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\EntityFramework.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Form1.resources
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Properties.Resources.resources
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.csproj.GenerateResource.Cache
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.fresh.resources
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.CompleteRebuild.resources
