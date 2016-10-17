@@ -29,7 +29,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Square1 = new System.Windows.Forms.PictureBox();
             this.Square2 = new System.Windows.Forms.PictureBox();
             this.Square3 = new System.Windows.Forms.PictureBox();
@@ -98,30 +97,6 @@
             this.rdbtn2player = new System.Windows.Forms.RadioButton();
             this.rdbtnAllAI = new System.Windows.Forms.RadioButton();
             this.btnStart = new System.Windows.Forms.Button();
-            this.Blue1 = new System.Windows.Forms.PictureBox();
-            this.Blue2 = new System.Windows.Forms.PictureBox();
-            this.Blue3 = new System.Windows.Forms.PictureBox();
-            this.Blue4 = new System.Windows.Forms.PictureBox();
-            this.Blue5 = new System.Windows.Forms.PictureBox();
-            this.Blue6 = new System.Windows.Forms.PictureBox();
-            this.Blue7 = new System.Windows.Forms.PictureBox();
-            this.Blue8 = new System.Windows.Forms.PictureBox();
-            this.Blue9 = new System.Windows.Forms.PictureBox();
-            this.Blue10 = new System.Windows.Forms.PictureBox();
-            this.Blue11 = new System.Windows.Forms.PictureBox();
-            this.Blue12 = new System.Windows.Forms.PictureBox();
-            this.Red1 = new System.Windows.Forms.PictureBox();
-            this.Red2 = new System.Windows.Forms.PictureBox();
-            this.Red9 = new System.Windows.Forms.PictureBox();
-            this.Red8 = new System.Windows.Forms.PictureBox();
-            this.Red3 = new System.Windows.Forms.PictureBox();
-            this.Red7 = new System.Windows.Forms.PictureBox();
-            this.Red6 = new System.Windows.Forms.PictureBox();
-            this.Red4 = new System.Windows.Forms.PictureBox();
-            this.Red5 = new System.Windows.Forms.PictureBox();
-            this.Red10 = new System.Windows.Forms.PictureBox();
-            this.Red11 = new System.Windows.Forms.PictureBox();
-            this.Red12 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.Square1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square3)).BeginInit();
@@ -186,30 +161,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Square56)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square48)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square40)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red12)).BeginInit();
             this.SuspendLayout();
             // 
             // Square1
@@ -219,6 +170,7 @@
             this.Square1.Size = new System.Drawing.Size(150, 150);
             this.Square1.TabIndex = 0;
             this.Square1.TabStop = false;
+            this.Square1.Click += new System.EventHandler(this.Square1_Click);
             // 
             // Square2
             // 
@@ -791,7 +743,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(60, 1387);
+            this.btnStart.Location = new System.Drawing.Point(210, 1266);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(120, 58);
             this.btnStart.TabIndex = 67;
@@ -799,271 +751,9 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // Blue1
-            // 
-            this.Blue1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue1.BackgroundImage")));
-            this.Blue1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue1.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue1.Name = "Blue1";
-            this.Blue1.Size = new System.Drawing.Size(150, 150);
-            this.Blue1.TabIndex = 68;
-            this.Blue1.TabStop = false;
-            // 
-            // Blue2
-            // 
-            this.Blue2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue2.BackgroundImage")));
-            this.Blue2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue2.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue2.Name = "Blue2";
-            this.Blue2.Size = new System.Drawing.Size(150, 150);
-            this.Blue2.TabIndex = 69;
-            this.Blue2.TabStop = false;
-            // 
-            // Blue3
-            // 
-            this.Blue3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue3.BackgroundImage")));
-            this.Blue3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue3.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue3.Name = "Blue3";
-            this.Blue3.Size = new System.Drawing.Size(150, 150);
-            this.Blue3.TabIndex = 70;
-            this.Blue3.TabStop = false;
-            // 
-            // Blue4
-            // 
-            this.Blue4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue4.BackgroundImage")));
-            this.Blue4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue4.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue4.Name = "Blue4";
-            this.Blue4.Size = new System.Drawing.Size(150, 150);
-            this.Blue4.TabIndex = 73;
-            this.Blue4.TabStop = false;
-            // 
-            // Blue5
-            // 
-            this.Blue5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue5.BackgroundImage")));
-            this.Blue5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue5.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue5.Name = "Blue5";
-            this.Blue5.Size = new System.Drawing.Size(150, 150);
-            this.Blue5.TabIndex = 72;
-            this.Blue5.TabStop = false;
-            // 
-            // Blue6
-            // 
-            this.Blue6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue6.BackgroundImage")));
-            this.Blue6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue6.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue6.Name = "Blue6";
-            this.Blue6.Size = new System.Drawing.Size(150, 150);
-            this.Blue6.TabIndex = 71;
-            this.Blue6.TabStop = false;
-            // 
-            // Blue7
-            // 
-            this.Blue7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue7.BackgroundImage")));
-            this.Blue7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue7.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue7.Name = "Blue7";
-            this.Blue7.Size = new System.Drawing.Size(150, 150);
-            this.Blue7.TabIndex = 76;
-            this.Blue7.TabStop = false;
-            // 
-            // Blue8
-            // 
-            this.Blue8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue8.BackgroundImage")));
-            this.Blue8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue8.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue8.Name = "Blue8";
-            this.Blue8.Size = new System.Drawing.Size(150, 150);
-            this.Blue8.TabIndex = 75;
-            this.Blue8.TabStop = false;
-            // 
-            // Blue9
-            // 
-            this.Blue9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue9.BackgroundImage")));
-            this.Blue9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue9.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue9.Name = "Blue9";
-            this.Blue9.Size = new System.Drawing.Size(150, 150);
-            this.Blue9.TabIndex = 74;
-            this.Blue9.TabStop = false;
-            // 
-            // Blue10
-            // 
-            this.Blue10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue10.BackgroundImage")));
-            this.Blue10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue10.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue10.Name = "Blue10";
-            this.Blue10.Size = new System.Drawing.Size(150, 150);
-            this.Blue10.TabIndex = 79;
-            this.Blue10.TabStop = false;
-            // 
-            // Blue11
-            // 
-            this.Blue11.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue11.BackgroundImage")));
-            this.Blue11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue11.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue11.Name = "Blue11";
-            this.Blue11.Size = new System.Drawing.Size(150, 150);
-            this.Blue11.TabIndex = 78;
-            this.Blue11.TabStop = false;
-            // 
-            // Blue12
-            // 
-            this.Blue12.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Blue12.BackgroundImage")));
-            this.Blue12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Blue12.Location = new System.Drawing.Point(1080, 1236);
-            this.Blue12.Name = "Blue12";
-            this.Blue12.Size = new System.Drawing.Size(150, 150);
-            this.Blue12.TabIndex = 77;
-            this.Blue12.TabStop = false;
-            // 
-            // Red1
-            // 
-            this.Red1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red1.BackgroundImage")));
-            this.Red1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red1.Location = new System.Drawing.Point(822, 1236);
-            this.Red1.Name = "Red1";
-            this.Red1.Size = new System.Drawing.Size(150, 150);
-            this.Red1.TabIndex = 80;
-            this.Red1.TabStop = false;
-            // 
-            // Red2
-            // 
-            this.Red2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red2.BackgroundImage")));
-            this.Red2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red2.Location = new System.Drawing.Point(822, 1236);
-            this.Red2.Name = "Red2";
-            this.Red2.Size = new System.Drawing.Size(150, 150);
-            this.Red2.TabIndex = 82;
-            this.Red2.TabStop = false;
-            // 
-            // Red9
-            // 
-            this.Red9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red9.BackgroundImage")));
-            this.Red9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red9.Location = new System.Drawing.Point(822, 1236);
-            this.Red9.Name = "Red9";
-            this.Red9.Size = new System.Drawing.Size(150, 150);
-            this.Red9.TabIndex = 82;
-            this.Red9.TabStop = false;
-            // 
-            // Red8
-            // 
-            this.Red8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red8.BackgroundImage")));
-            this.Red8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red8.Location = new System.Drawing.Point(822, 1236);
-            this.Red8.Name = "Red8";
-            this.Red8.Size = new System.Drawing.Size(150, 150);
-            this.Red8.TabIndex = 82;
-            this.Red8.TabStop = false;
-            // 
-            // Red3
-            // 
-            this.Red3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red3.BackgroundImage")));
-            this.Red3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red3.Location = new System.Drawing.Point(822, 1236);
-            this.Red3.Name = "Red3";
-            this.Red3.Size = new System.Drawing.Size(150, 150);
-            this.Red3.TabIndex = 82;
-            this.Red3.TabStop = false;
-            // 
-            // Red7
-            // 
-            this.Red7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red7.BackgroundImage")));
-            this.Red7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red7.Location = new System.Drawing.Point(822, 1236);
-            this.Red7.Name = "Red7";
-            this.Red7.Size = new System.Drawing.Size(150, 150);
-            this.Red7.TabIndex = 82;
-            this.Red7.TabStop = false;
-            // 
-            // Red6
-            // 
-            this.Red6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red6.BackgroundImage")));
-            this.Red6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red6.Location = new System.Drawing.Point(822, 1236);
-            this.Red6.Name = "Red6";
-            this.Red6.Size = new System.Drawing.Size(150, 150);
-            this.Red6.TabIndex = 82;
-            this.Red6.TabStop = false;
-            // 
-            // Red4
-            // 
-            this.Red4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red4.BackgroundImage")));
-            this.Red4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red4.Location = new System.Drawing.Point(822, 1236);
-            this.Red4.Name = "Red4";
-            this.Red4.Size = new System.Drawing.Size(150, 150);
-            this.Red4.TabIndex = 82;
-            this.Red4.TabStop = false;
-            // 
-            // Red5
-            // 
-            this.Red5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red5.BackgroundImage")));
-            this.Red5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red5.Location = new System.Drawing.Point(822, 1236);
-            this.Red5.Name = "Red5";
-            this.Red5.Size = new System.Drawing.Size(150, 150);
-            this.Red5.TabIndex = 82;
-            this.Red5.TabStop = false;
-            // 
-            // Red10
-            // 
-            this.Red10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red10.BackgroundImage")));
-            this.Red10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red10.Location = new System.Drawing.Point(822, 1236);
-            this.Red10.Name = "Red10";
-            this.Red10.Size = new System.Drawing.Size(150, 150);
-            this.Red10.TabIndex = 82;
-            this.Red10.TabStop = false;
-            // 
-            // Red11
-            // 
-            this.Red11.Location = new System.Drawing.Point(0, 0);
-            this.Red11.Name = "Red11";
-            this.Red11.Size = new System.Drawing.Size(100, 50);
-            this.Red11.TabIndex = 84;
-            this.Red11.TabStop = false;
-            // 
-            // Red12
-            // 
-            this.Red12.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Red12.BackgroundImage")));
-            this.Red12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Red12.Location = new System.Drawing.Point(822, 1236);
-            this.Red12.Name = "Red12";
-            this.Red12.Size = new System.Drawing.Size(150, 150);
-            this.Red12.TabIndex = 83;
-            this.Red12.TabStop = false;
-            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1253, 1599);
-            this.Controls.Add(this.Red12);
-            this.Controls.Add(this.Red9);
-            this.Controls.Add(this.Red8);
-            this.Controls.Add(this.Red3);
-            this.Controls.Add(this.Red7);
-            this.Controls.Add(this.Red6);
-            this.Controls.Add(this.Red4);
-            this.Controls.Add(this.Red5);
-            this.Controls.Add(this.Red10);
-            this.Controls.Add(this.Red11);
-            this.Controls.Add(this.Red2);
-            this.Controls.Add(this.Red1);
-            this.Controls.Add(this.Blue10);
-            this.Controls.Add(this.Blue11);
-            this.Controls.Add(this.Blue12);
-            this.Controls.Add(this.Blue7);
-            this.Controls.Add(this.Blue8);
-            this.Controls.Add(this.Blue9);
-            this.Controls.Add(this.Blue4);
-            this.Controls.Add(this.Blue5);
-            this.Controls.Add(this.Blue6);
-            this.Controls.Add(this.Blue3);
-            this.Controls.Add(this.Blue2);
-            this.Controls.Add(this.Blue1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.rdbtnAllAI);
             this.Controls.Add(this.rdbtn2player);
@@ -1198,30 +888,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Square56)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square48)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square40)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Blue12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Red12)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1296,30 +962,6 @@
         private System.Windows.Forms.RadioButton rdbtn2player;
         private System.Windows.Forms.RadioButton rdbtnAllAI;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.PictureBox Blue1;
-        private System.Windows.Forms.PictureBox Blue2;
-        private System.Windows.Forms.PictureBox Blue3;
-        private System.Windows.Forms.PictureBox Blue4;
-        private System.Windows.Forms.PictureBox Blue5;
-        private System.Windows.Forms.PictureBox Blue6;
-        private System.Windows.Forms.PictureBox Blue7;
-        private System.Windows.Forms.PictureBox Blue8;
-        private System.Windows.Forms.PictureBox Blue9;
-        private System.Windows.Forms.PictureBox Blue10;
-        private System.Windows.Forms.PictureBox Blue11;
-        private System.Windows.Forms.PictureBox Blue12;
-        private System.Windows.Forms.PictureBox Red1;
-        private System.Windows.Forms.PictureBox Red2;
-        private System.Windows.Forms.PictureBox Red9;
-        private System.Windows.Forms.PictureBox Red8;
-        private System.Windows.Forms.PictureBox Red3;
-        private System.Windows.Forms.PictureBox Red7;
-        private System.Windows.Forms.PictureBox Red6;
-        private System.Windows.Forms.PictureBox Red4;
-        private System.Windows.Forms.PictureBox Red5;
-        private System.Windows.Forms.PictureBox Red10;
-        private System.Windows.Forms.PictureBox Red11;
-        private System.Windows.Forms.PictureBox Red12;
     }
 }
 

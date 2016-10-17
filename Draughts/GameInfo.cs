@@ -13,7 +13,8 @@ namespace Draughts
         public int gameInfoId { get; set; }
         public int gameNumber { get; set; }
         public int turn { get; set; }
-        List<List<CheckerSquare>> checkerboard { get; set; }
+        public List<List<CheckerSquare>> checkerboard { get; set; }
         public virtual List<GameInfo> gameInfo { get; set; }
     }
 }
+ 
