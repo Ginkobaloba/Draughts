@@ -7,13 +7,13 @@ namespace Draughts.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CompleteRebuild : IMigrationMetadata
+    public sealed partial class fresh : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CompleteRebuild));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fresh));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610142113322_Complete Rebuild"; }
+            get { return "201610172211564_fresh"; }
         }
         
         string IMigrationMetadata.Source

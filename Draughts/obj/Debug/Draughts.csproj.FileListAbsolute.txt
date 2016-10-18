@@ -22,6 +22,5 @@ C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Form1.resources
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Properties.Resources.resources
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.csproj.GenerateResource.Cache
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.csprojResolveAssemblyReference.cache
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.fresh.resources
-C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.CompleteRebuild.resources
-C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.fresh1.resources

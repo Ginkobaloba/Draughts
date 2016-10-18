@@ -56,7 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
-    <Compile Include="CheckerSquare.cs" />
     <Compile Include="GameInfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -65,17 +64,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameInfoHistory.cs" />
-    <Compile Include="Migrations\201610141658434_fresh.cs" />
-    <Compile Include="Migrations\201610141658434_fresh.Designer.cs">
-      <DependentUpon>201610141658434_fresh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610142113322_Complete Rebuild.cs" />
-    <Compile Include="Migrations\201610142113322_Complete Rebuild.Designer.cs">
-      <DependentUpon>201610142113322_Complete Rebuild.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610172115535_fresh1.cs" />
-    <Compile Include="Migrations\201610172115535_fresh1.Designer.cs">
-      <DependentUpon>201610172115535_fresh1.cs</DependentUpon>
+    <Compile Include="Migrations\201610172211564_fresh.cs" />
+    <Compile Include="Migrations\201610172211564_fresh.Designer.cs">
+      <DependentUpon>201610172211564_fresh.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -83,14 +74,8 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610141658434_fresh.resx">
-      <DependentUpon>201610141658434_fresh.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610142113322_Complete Rebuild.resx">
-      <DependentUpon>201610142113322_Complete Rebuild.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610172115535_fresh1.resx">
-      <DependentUpon>201610172115535_fresh1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610172211564_fresh.resx">
+      <DependentUpon>201610172211564_fresh.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
