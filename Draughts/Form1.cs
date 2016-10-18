@@ -50,7 +50,7 @@ namespace Draughts
 
             }
         }
-        public GameInfo SetupInital(GameInfo currentGame)
+        public CheckerBoardArray SetupInital(GameInfo currentGame)
         {
             currentGame.turn = 0;
             currentGame.square1 = 1;
@@ -77,6 +77,7 @@ namespace Draughts
             currentGame.square60 = -1;
             currentGame.square62 = -1;
             currentGame.square64 = -1;
+
 
 
 
@@ -929,11 +930,6 @@ namespace Draughts
                     break;
             }
 
-        }
-
-        private void Square1_Click(object sender, EventArgs e)
-        {
-          
         }
     }
 }

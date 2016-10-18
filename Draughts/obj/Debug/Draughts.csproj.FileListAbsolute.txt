@@ -24,3 +24,4 @@ C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Properties.Resources
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.csproj.GenerateResource.Cache
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.csprojResolveAssemblyReference.cache
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.fresh.resources
+C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.updateddatabasemodel.resources

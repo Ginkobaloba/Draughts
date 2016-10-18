@@ -6,29 +6,31 @@ using System.Threading.Tasks;
 
 namespace Draughts
 {
-    class CheckerBoardArray
+    public class CheckerBoardArray
     {
         public int gameID { get; set; }
-        public int turn { get; set; }
+        public int turn { get; set; }                                       
         public List<List<int>> CheckerBoard = new List<List<int>>();
 
 
-        public CheckerBoardArray(GameInfo Gameinfo)
+        public CheckerBoardArray()
+        {         
+        }
+        public CheckerBoardArray serialization(GameInfo Gameinfo)
         {
             this.gameID = Gameinfo.gameInfoId;
-            this.turn = Gameinfo.turn;
-            
+
             for (int i = 0; i < 8; i++)
             {
                 List<int> oneRow = new List<int>();
                 for (int ii = 0; ii < 8; ii++)
                 {
-                int A = new int();
-                    oneRow.Add(A);                
+                    int A = new int();
+                    oneRow.Add(A);
                 }
                 CheckerBoard.Add(oneRow);
             }
-
+            this.turn = Gameinfo.turn;
             this.CheckerBoard[0][0] = Gameinfo.square1;
             this.CheckerBoard[0][2] = Gameinfo.square3;
             this.CheckerBoard[0][4] = Gameinfo.square5;
@@ -61,8 +63,8 @@ namespace Draughts
             this.CheckerBoard[7][3] = Gameinfo.square60;
             this.CheckerBoard[7][5] = Gameinfo.square62;
             this.CheckerBoard[7][7] = Gameinfo.square64;
-        
 
+            return this;
         }
     }
 }
