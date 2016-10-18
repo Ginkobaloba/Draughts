@@ -14,6 +14,7 @@ namespace Draughts
 
         public GameInfo MakeAMove(GameInfo currentGame, int callingPlayer)
         {
+            Random random = new Random();
             List<GameInfoHistory> Nextmove = new List<GameInfoHistory>();
 
 
@@ -34,26 +35,58 @@ namespace Draughts
                 }
 
             }
-            switch (Nextmove.Count) { 
-                case 0:
-                    // add a random
-                    break;
-            case 1:
 
-                    currentGame = Nextmove[0].GameInfo;
-                    break;
-                default:
-                    MinMaxEvaluation(Nextmove);
+
+            if (random.Next(0, 5)> 1)
+            {
+                switch (Nextmove.Count) {
+                    case 0:
+                        randomNextMove(currentGame, callingPlayer);
+                        break;
+                    case 1:
+
+                        currentGame = Nextmove[0].GameInfo;
+                        break;
+                    default:
+                        MinMaxEvaluation(Nextmove);
                         break;
 
 
+                }
             }
+            else
+            {
+                randomNextMove(currentGame, callingPlayer);
+            }
+
             return currentGame;
         }
 
         public void MinMaxEvaluation(List<GameInfoHistory>PossibleMoves)
         {
 
+        }
+        public GameInfo randomNextMove(GameInfo curentGame, int CallingPlayer)
+        {
+            GameInfo nextMove = new GameInfo();
+            List<int> properties = new List<int>();
+            foreach(var item in curentGame.GetType().GetProperties())
+            {
+
+            }
+
+            return nextMove;
+        }
+        public List<GameInfo> GetPossibleMoves(GameInfo CurrentGame, int CallingPlayer)
+        {
+            List<GameInfo> PossibleMoves = new List<GameInfo>();
+
+            if (CallingPlayer == -1)
+            {
+                
+            }
+
+            return PossibleMoves;
         }
     }
 }
