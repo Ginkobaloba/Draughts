@@ -43,11 +43,8 @@ namespace Draughts
         public int square60 { get; set; }
         public int square62 { get; set; }
         public int square64 { get; set; }
-
-        public virtual List<GameInfo> gameInfo { get; set; }
-        public GameInfo()
-        {
-        }
+        //public virtual List<GameInfo> gameInfo { get; set; }
+ 
         public GameInfo Serialization(CheckerBoardArray checkerBoard)
         {
 

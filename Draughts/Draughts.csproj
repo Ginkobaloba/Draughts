@@ -72,6 +72,14 @@
     <Compile Include="Migrations\201610182031310_updated databasemodel.Designer.cs">
       <DependentUpon>201610182031310_updated databasemodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610191312463_Updated model.cs" />
+    <Compile Include="Migrations\201610191312463_Updated model.Designer.cs">
+      <DependentUpon>201610191312463_Updated model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610191322545_removed virtual list.cs" />
+    <Compile Include="Migrations\201610191322545_removed virtual list.Designer.cs">
+      <DependentUpon>201610191322545_removed virtual list.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +91,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610182031310_updated databasemodel.resx">
       <DependentUpon>201610182031310_updated databasemodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610191312463_Updated model.resx">
+      <DependentUpon>201610191312463_Updated model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610191322545_removed virtual list.resx">
+      <DependentUpon>201610191322545_removed virtual list.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

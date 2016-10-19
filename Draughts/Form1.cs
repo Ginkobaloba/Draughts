@@ -19,6 +19,7 @@ namespace Draughts
         {
             InitializeComponent();
             CheckerBoardArray currentGame = new CheckerBoardArray();
+            AddInitalSetupTemp();
             currentGame = SetupInital(currentGame);
             LinkToGUI(currentGame);
         }
@@ -52,7 +53,9 @@ namespace Draughts
         }
         public CheckerBoardArray SetupInital(CheckerBoardArray currentGame)
         {
-
+            //var maxValue = db.gameInfo.Max(x => x.gameNumber);
+            currentGame.turn = 0;
+            currentGame.gameID = 0;
        
 
             return currentGame;
@@ -88,13 +91,17 @@ namespace Draughts
             currentGame.square62 = -1;
             currentGame.square64 = -1;
 
-            db.gameInfo.Add(currentGame);
+            
+            var database = db.Set<GameInfo>();
+            database.Add(currentGame);
+
+            db.SaveChanges();
 
         }
-        public void LinkToGUI(GameInfo currentGame)
+        public void LinkToGUI(CheckerBoardArray currentGame)
         {
 
-            switch (currentGame.square1)
+            switch (currentGame.CheckerBoard[0][0])
             {
                 case -2:
                     Square1.BackgroundImage = Properties.Resources.kingblue;
@@ -122,7 +129,7 @@ namespace Draughts
 
             
 
-            switch (currentGame.square3)
+            switch (currentGame.CheckerBoard[0][2])
             {
                 case -2:
                     Square3.BackgroundImage = Properties.Resources.kingblue;
@@ -150,7 +157,7 @@ namespace Draughts
 
             
 
-            switch (currentGame.square5)
+            switch (currentGame.CheckerBoard[0][4])
             {
                 case -2:
                     Square5.BackgroundImage = Properties.Resources.kingblue;
@@ -178,7 +185,7 @@ namespace Draughts
 
            
 
-            switch (currentGame.square7)
+            switch (currentGame.CheckerBoard[0][6])
             {
                 case -2:
                     Square7.BackgroundImage = Properties.Resources.kingblue;
@@ -206,7 +213,7 @@ namespace Draughts
 
           
 
-            switch (currentGame.square10)
+            switch (currentGame.CheckerBoard[1][1])
             {
                 case -2:
                     Square10.BackgroundImage = Properties.Resources.kingblue;
@@ -233,7 +240,7 @@ namespace Draughts
             }
 
            
-            switch (currentGame.square12)
+            switch (currentGame.CheckerBoard[1][3])
             {
                 case -2:
                     Square12.BackgroundImage = Properties.Resources.kingblue;
@@ -259,7 +266,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square14)
+            switch (currentGame.CheckerBoard[1][5])
             {
                 case -2:
                     Square14.BackgroundImage = Properties.Resources.kingblue;
@@ -285,7 +292,7 @@ namespace Draughts
                     break;
             }
            
-            switch (currentGame.square16)
+            switch (currentGame.CheckerBoard[1][7])
             {
                 case -2:
                     Square16.BackgroundImage = Properties.Resources.kingblue;
@@ -310,7 +317,7 @@ namespace Draughts
                 default:
                     break;
             }
-            switch (currentGame.square17)
+            switch (currentGame.CheckerBoard[2][0])
             {
                 case -2:
                     Square17.BackgroundImage = Properties.Resources.kingblue;
@@ -336,7 +343,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square19)
+            switch (currentGame.CheckerBoard[2][2])
             {
                 case -2:
                     Square19.BackgroundImage = Properties.Resources.kingblue;
@@ -362,7 +369,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square21)
+            switch (currentGame.CheckerBoard[2][4])
             {
                 case -2:
                     Square21.BackgroundImage = Properties.Resources.kingblue;
@@ -388,7 +395,7 @@ namespace Draughts
                     break;
             }
            
-            switch (currentGame.square23)
+            switch (currentGame.CheckerBoard[2][6])
             {
                 case -2:
                     Square23.BackgroundImage = Properties.Resources.kingblue;
@@ -415,7 +422,7 @@ namespace Draughts
             }
            
             
-            switch (currentGame.square26)
+            switch (currentGame.CheckerBoard[3][1])
             {
                 case -2:
                     Square26.BackgroundImage = Properties.Resources.kingblue;
@@ -441,7 +448,7 @@ namespace Draughts
                     break;
             }
 
-            switch (currentGame.square28)
+            switch (currentGame.CheckerBoard[3][3])
             {
                 case -2:
                     Square28.BackgroundImage = Properties.Resources.kingblue;
@@ -467,7 +474,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square30)
+            switch (currentGame.CheckerBoard[3][5])
             {
                 case -2:
                     Square30.BackgroundImage = Properties.Resources.kingblue;
@@ -493,7 +500,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square32)
+            switch (currentGame.CheckerBoard[3][7])
             {
                 case -2:
                     Square32.BackgroundImage = Properties.Resources.kingblue;
@@ -518,7 +525,7 @@ namespace Draughts
                 default:
                     break;
             }
-            switch (currentGame.square33)
+            switch (currentGame.CheckerBoard[4][0])
             {
                 case -2:
                     Square33.BackgroundImage = Properties.Resources.kingblue;
@@ -544,7 +551,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square35)
+            switch (currentGame.CheckerBoard[4][2])
             {
                 case -2:
                     Square35.BackgroundImage = Properties.Resources.kingblue;
@@ -570,7 +577,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square37)
+            switch (currentGame.CheckerBoard[4][4])
             {
                 case -2:
                     Square37.BackgroundImage = Properties.Resources.kingblue;
@@ -596,7 +603,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square39)
+            switch (currentGame.CheckerBoard[4][6])
             {
                 case -2:
                     Square39.BackgroundImage = Properties.Resources.kingblue;
@@ -623,7 +630,7 @@ namespace Draughts
             }
             
        
-            switch (currentGame.square42)
+            switch (currentGame.CheckerBoard[5][1])
             {
                 case -2:
                     Square42.BackgroundImage = Properties.Resources.kingblue;
@@ -649,7 +656,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square44)
+            switch (currentGame.CheckerBoard[5][3])
             {
                 case -2:
                     Square44.BackgroundImage = Properties.Resources.kingblue;
@@ -675,7 +682,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square46)
+            switch (currentGame.CheckerBoard[5][5])
             {
                 case -2:
                     Square46.BackgroundImage = Properties.Resources.kingblue;
@@ -701,7 +708,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square48)
+            switch (currentGame.CheckerBoard[5][7])
             {
                 case -2:
                     Square48.BackgroundImage = Properties.Resources.kingblue;
@@ -726,7 +733,7 @@ namespace Draughts
                 default:
                     break;
             }
-            switch (currentGame.square49)
+            switch (currentGame.CheckerBoard[6][0])
             {
                 case -2:
                     Square49.BackgroundImage = Properties.Resources.kingblue;
@@ -752,7 +759,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square51)
+            switch (currentGame.CheckerBoard[6][2])
             {
                 case -2:
                     Square51.BackgroundImage = Properties.Resources.kingblue;
@@ -778,7 +785,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square53)
+            switch (currentGame.CheckerBoard[6][4])
             {
                 case -2:
                     Square53.BackgroundImage = Properties.Resources.kingblue;
@@ -804,7 +811,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square55)
+            switch (currentGame.CheckerBoard[6][6])
             {
                 case -2:
                     Square55.BackgroundImage = Properties.Resources.kingblue;
@@ -831,7 +838,7 @@ namespace Draughts
             }
             
             
-            switch (currentGame.square58)
+            switch (currentGame.CheckerBoard[7][1])
             {
                 case -2:
                     Square58.BackgroundImage = Properties.Resources.kingblue;
@@ -857,7 +864,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square60)
+            switch (currentGame.CheckerBoard[7][3])
             {
                 case -2:
                     Square60.BackgroundImage = Properties.Resources.kingblue;
@@ -883,7 +890,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square62)
+            switch (currentGame.CheckerBoard[7][5])
             {
                 case -2:
                     Square62.BackgroundImage = Properties.Resources.kingblue;
@@ -909,7 +916,7 @@ namespace Draughts
                     break;
             }
             
-            switch (currentGame.square64)
+            switch (currentGame.CheckerBoard[7][7])
             {
                 case -2:
                     Square64.BackgroundImage = Properties.Resources.kingblue;
