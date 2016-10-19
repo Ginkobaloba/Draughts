@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Draughts
 {
-    public class CheckerBoardArray
+    public class CheckerBoardArray : ICloneable
     {
         public int gameID { get; set; }
         public int turn { get; set; }                                       
@@ -65,5 +65,8 @@ namespace Draughts
 
             return this;
         }
+        public CheckerBoardArray Clone() { return (CheckerBoardArray)this.MemberwiseClone(); }
+        object ICloneable.Clone() { return Clone(); }
     }
 }
+

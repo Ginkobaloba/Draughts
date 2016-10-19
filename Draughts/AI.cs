@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Draughts
 {
-    class AI
+   public class AI
     {
         private DatabaseContext db = new DatabaseContext();
         public AI()
@@ -37,7 +37,7 @@ namespace Draughts
                 {
                     int nextTurn = item.turn + 1;
                     possibleNextMoves = (from PNM in db.gameInfo where PNM.gameNumber == item.gameNumber && PNM.turn == nextTurn && PNM.winner == callingPlayer select PNM).ToList();
-                    foreach(var item2 in possibleNextMoves)
+                    foreach (var item2 in possibleNextMoves)
                     {
                         possibleBoardStates.Add(currentCheckerBoard.serialization(item2));
                     }
@@ -46,11 +46,11 @@ namespace Draughts
             }
 
 
-            if (random.Next(0, 5)> 1)
+            if (random.Next(0, 5) > 1)
             {
                 switch (possibleNextMoves.Count) {
                     case 0:
-                         break;
+                        break;
                     case 1:
 
                         currentGame = possibleNextMoves[0];
@@ -70,638 +70,618 @@ namespace Draughts
             return currentGame;
         }
 
-        public void MinMaxEvaluation(List<GameInfo>PossibleMoves)
+        public void MinMaxEvaluation(List<GameInfo> PossibleMoves)
         {
 
         }
         public List<CheckerBoardArray> GetPossibleMoves(CheckerBoardArray CurrentGame, int CallingPlayer)
         {
             List<CheckerBoardArray> PossibleMoves = new List<CheckerBoardArray>();
+            //GameInfo test1 = new GameInfo();
+            //CheckerBoardArray CurrentGame = new CheckerBoardArray;
+            // test.serialization(test1.Serialization(CurrentGame));
+
 
             switch (CallingPlayer) {
+                
                 case 1:
                     for (int i = 0; i < 8; i++)
                     {
                         for (int ii = 0; ii < 8; ii++)
                         {
-                            if (CurrentGame.CheckerBoard[i][ii] > 0)
+                            try
                             {
-                                //diagonal right unpromoted or king
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i <= 6 && ii <= 6)
+                                if (CurrentGame.CheckerBoard[i][ii] > 0)
                                 {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal left Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] == 0 && i <= 6 && ii >= 1)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal right back  king
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] == 0 && i >= 1 && ii <= 6 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal left back king 
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] == 0 && i >= 1 && ii >= 1 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
+                                    //diagonal right unpromoted or king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i <= 6 && ii <= 6)
+                                    {
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal left Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] == 0 && i <= 6 && ii >= 1)
+                                    {
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal right back  king
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] == 0 && i >= 1 && ii <= 6 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal left back king 
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] == 0 && i >= 1 && ii >= 1 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal Jump right Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && i <= 5 && ii <= 5)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal jump left Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && i >= 2 && ii >= 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal Jump right king back
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && i >= 2 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal jump left king back                                                       
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && i >= 2 && ii >= 2 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii + 4] == 0 && i <= 3 && ii <= 3)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii - 4] == 0 && i <= 3 && ii >= 4)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right then middle Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left then middle Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii >= 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right back king
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii + 4] == 0 && i >= 4 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 3][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i - 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left back king
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii - 4] == 0 && i >= 4 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal double Jump right then middle back king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left then middle back king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right front sideways King
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i <= 5 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left right sideways king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+
+
+                                    //diagonal double Jump right back sideways King
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i >= 2 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left back sideways king
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i >= 2 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
                                 }
 
-                                //diagonal Jump right Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && i <= 5 && ii <= 5)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal jump left Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && i >= 2 && ii >= 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal Jump right king back
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && i >= 2 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal jump left king back                                                       
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && i >= 2 && ii >= 2 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii + 4] == 0 && i <= 3 && ii <= 3)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii - 4] == 0 && i <= 3 && ii >= 4)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right then middle Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left then middle Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii >= 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right back king
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii + 4] == 0 && i >= 4 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 3][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i - 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left back king
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii - 4] == 0 && i >= 4 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal double Jump right then middle back king
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left then middle back king
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right front sideways King
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i <= 5 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left right sideways king
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-
-
-                                //diagonal double Jump right back sideways King
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i >= 2 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left back sideways king
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i >= 2 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
+                            }
+                            catch (Exception)
+                            {
                             }
                         }
                     }
                     break;
-                    
+
                 case -1:
                     for (int i = 0; i < 8; i++)
                     {
                         for (int ii = 0; ii < 8; ii++)
                         {
-                            if (CurrentGame.CheckerBoard[i][ii] < 0)
+                            try
                             {
-                                //diagonal right unpromoted or king
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] == 0 && i >= 1 && ii <= 6)
+
+                                if (CurrentGame.CheckerBoard[i][ii] < 0)
                                 {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal left Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] == 0 && i >= 1 && ii >= 1)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal right back  king
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i >= 1 && ii <= 6 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal left back king 
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] == 0 && i >= 1 && ii >= 1 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
+
+                                    //diagonal right unpromoted or king
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] == 0 && i >= 1 && ii <= 6)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal left Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] == 0 && i >= 1 && ii >= 1)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal right back  king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i >= 1 && ii <= 6 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal left back king 
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] == 0 && i >= 1 && ii >= 1 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal Jump right Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && i >= 2 && ii <= 5)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal jump left Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && i >= 2 && ii >= 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal Jump right king back
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && i <= 5 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal jump left king back                                                       
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && i <= 5 && ii >= 2 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii + 4] == 0 && i >= 4 && ii <= 3)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 3][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i - 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii - 4] == 0 && i >= 4 && ii >= 4)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 3][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i - 4][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right then middle Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 4][ii] == 0 && i >= 4 && ii <= 5)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 3][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left then middle Unpromoted or promoted
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 4][ii] == 0 && i >= 4 && ii >= 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 3][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+
+                                    //diagonal double Jump right back king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii + 4] == 0 && i <= 3 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left back king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+                                    //diagonal double Jump right then middle back king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left then middle back king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 3][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump right front sideways King
+                                    if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i <= 5 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 1][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left right sideways king
+                                    if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i + 1][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+
+
+                                    //diagonal double Jump right back sideways King
+                                    if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i >= 2 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 1][ii + 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
+
+                                    //diagonal double Jump left back sideways king
+                                    if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i >= 2 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
+                                    {
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame;
+                                        PossibleMove.turn = CurrentGame.turn + 1;
+                                        PossibleMove.gameID = CurrentGame.gameID;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
+                                        PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
+                                        PossibleMove.CheckerBoard[i - 1][ii - 3] = 0;
+                                        PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
+                                        PossibleMove.CheckerBoard[i][ii] = 0;
+                                        PossibleMoves.Add(PossibleMove);
+                                    }
                                 }
 
-                                //diagonal Jump right Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && i >= 2 && ii <= 5)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal jump left Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && i >= 2 && ii >= 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal Jump right king back
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && i <= 5 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal jump left king back                                                       
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && i <= 5 && ii >= 2 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii + 4] == 0 && i >= 4 && ii <= 3)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 3][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i - 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii - 4] == 0 && i >= 4 && ii >= 4)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 3][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i - 4][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right then middle Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 4][ii] == 0 && i >= 4 && ii <= 5)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 3][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left then middle Unpromoted or promoted
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 4][ii] == 0 && i >= 4 && ii >= 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 3][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                
-                                //diagonal double Jump right back king
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii + 4] == 0 && i <= 3 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left back king
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                //diagonal double Jump right then middle back king
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left then middle back king
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 3][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 4][ii] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump right front sideways King
-                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i <= 5 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 1][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left right sideways king
-                                if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i + 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i + 1][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-                                
-                                //diagonal double Jump right back sideways King
-                                if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i >= 2 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii + 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 1][ii + 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii + 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
-
-                                //diagonal double Jump left back sideways king
-                                if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i >= 2 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
-                                {
-                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                    PossibleMove = CurrentGame;
-                                    PossibleMove.turn = CurrentGame.turn + 1;
-                                    PossibleMove.gameID = CurrentGame.gameID;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
-                                    PossibleMove.CheckerBoard[i - 2][ii - 2] = 0;
-                                    PossibleMove.CheckerBoard[i - 1][ii - 3] = 0;
-                                    PossibleMove.CheckerBoard[i][ii - 4] = PossibleMove.CheckerBoard[i][ii];
-                                    PossibleMove.CheckerBoard[i][ii] = 0;
-                                    PossibleMoves.Add(PossibleMove);
-                                }
+                            }
+                            catch (Exception)
+                            {
                             }
                         }
                     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     break;
                 default:
                     break;
-            }
+                    }
 
-            return PossibleMoves;
+                    return PossibleMoves;
+            }
         }
     }
-}
+
