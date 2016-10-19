@@ -44,7 +44,7 @@ namespace Draughts
         public int square62 { get; set; }
         public int square64 { get; set; }
         //public virtual List<GameInfo> gameInfo { get; set; }
- 
+
         public GameInfo Serialization(CheckerBoardArray checkerBoard)
         {
 
@@ -69,15 +69,15 @@ namespace Draughts
             this.square33 = checkerBoard.CheckerBoard[4][0];
             this.square35 = checkerBoard.CheckerBoard[4][2];
             this.square37 = checkerBoard.CheckerBoard[4][4];
-            this.square39 = checkerBoard.CheckerBoard[5][1];
-            this.square42 = checkerBoard.CheckerBoard[5][3];
-            this.square44 = checkerBoard.CheckerBoard[5][5];
-            this.square46 = checkerBoard.CheckerBoard[5][7];
-            this.square48 = checkerBoard.CheckerBoard[6][0];
-            this.square49 = checkerBoard.CheckerBoard[6][2];
-            this.square51 = checkerBoard.CheckerBoard[6][4];
-            this.square53 = checkerBoard.CheckerBoard[6][6];
-            this.square55 = checkerBoard.CheckerBoard[7][1];
+            this.square39 = checkerBoard.CheckerBoard[4][6];
+            this.square42 = checkerBoard.CheckerBoard[5][1];
+            this.square44 = checkerBoard.CheckerBoard[5][3];
+            this.square46 = checkerBoard.CheckerBoard[5][5];
+            this.square48 = checkerBoard.CheckerBoard[5][7];
+            this.square49 = checkerBoard.CheckerBoard[6][0];
+            this.square51 = checkerBoard.CheckerBoard[6][2];
+            this.square53 = checkerBoard.CheckerBoard[6][4];
+            this.square55 = checkerBoard.CheckerBoard[6][6];
             this.square58 = checkerBoard.CheckerBoard[7][1];
             this.square60 = checkerBoard.CheckerBoard[7][3];
             this.square62 = checkerBoard.CheckerBoard[7][5];
@@ -88,6 +88,6 @@ namespace Draughts
         }
 
     }
-
 }
+
  

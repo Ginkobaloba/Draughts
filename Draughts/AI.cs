@@ -12,13 +12,13 @@ namespace Draughts
         public AI()
         { }
 
-        public GameInfo MakeAMove(CheckerBoardArray needsToBeSerialized, int callingPlayer)
+        public GameInfo MakeAMove(CheckerBoardArray currentCheckerBoard, int callingPlayer)
         {
             Random random = new Random();
             List<GameInfo> possibleNextMoves = new List<GameInfo>();
             GameInfo currentGame = new GameInfo();
 
-            currentGame = currentGame.Serialization(needsToBeSerialized);
+            currentGame = currentGame.Serialization(currentCheckerBoard);
 
 
             var SameBoardState = (from GI in db.gameInfo
@@ -32,10 +32,15 @@ namespace Draughts
 
             if (SameBoardState != null)
             {
+                List<CheckerBoardArray> possibleBoardStates = new List<CheckerBoardArray>();
                 foreach (var item in SameBoardState)
                 {
                     int nextTurn = item.turn + 1;
                     possibleNextMoves = (from PNM in db.gameInfo where PNM.gameNumber == item.gameNumber && PNM.turn == nextTurn && PNM.winner == callingPlayer select PNM).ToList();
+                    foreach(var item2 in possibleNextMoves)
+                    {
+                        possibleBoardStates.Add(currentCheckerBoard.serialization(item2));
+                    }
                 }
 
             }
@@ -45,7 +50,7 @@ namespace Draughts
             {
                 switch (possibleNextMoves.Count) {
                     case 0:
-                        randomNextMove(currentGame, callingPlayer);
+                        randomNextMove(currentCheckerBoard, callingPlayer);
                         break;
                     case 1:
 
@@ -60,7 +65,7 @@ namespace Draughts
             }
             else
             {
-                randomNextMove(currentGame, callingPlayer);
+                randomNextMove(currentCheckerBoard, callingPlayer);
             }
 
             return currentGame;
@@ -70,7 +75,7 @@ namespace Draughts
         {
 
         }
-        public GameInfo randomNextMove(GameInfo curentGame, int CallingPlayer)
+        public GameInfo randomNextMove(CheckerBoardArray curentGame, int CallingPlayer)
         {
             GameInfo nextMove = new GameInfo();
             List<int> properties = new List<int>();
@@ -81,13 +86,37 @@ namespace Draughts
 
             return nextMove;
         }
-        public List<GameInfo> GetPossibleMoves(GameInfo CurrentGame, int CallingPlayer)
+        public List<GameInfo> GetPossibleMoves(CheckerBoardArray CurrentGame, int CallingPlayer)
         {
             List<GameInfo> PossibleMoves = new List<GameInfo>();
 
-            if (CallingPlayer == -1)
-            {
-                
+            switch (CallingPlayer) {
+                case -1:
+                    for (int i = 0; i < 8; i++)
+                    { 
+                     for (int ii = 0; ii < 8; ii++)
+                    {
+                            if (CurrentGame.CheckerBoard[i][ii] == -1)
+                            {
+                                if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i )
+                                {   //diagonal right
+                                    CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                    PossibleMove = CurrentGame;
+                                    PossibleMove.turn = CurrentGame.turn + 1;
+                                    PossibleMove.gameID = CurrentGame.gameID;
+                                    PossibleMove.CheckerBoard[i][ii] = 0;
+                                    PossibleMove.CheckerBoard[i][ii] = CallingPlayer;                                   
+                                }
+                                if 
+                            }
+
+                    }
+                    }
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
             }
 
             return PossibleMoves;

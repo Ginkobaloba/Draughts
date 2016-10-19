@@ -19,7 +19,7 @@ namespace Draughts
         {
             InitializeComponent();
             CheckerBoardArray currentGame = new CheckerBoardArray();
-            AddInitalSetupTemp();
+            //AddInitalSetupTemp();
             currentGame = SetupInital(currentGame);
             LinkToGUI(currentGame);
         }
@@ -53,10 +53,11 @@ namespace Draughts
         }
         public CheckerBoardArray SetupInital(CheckerBoardArray currentGame)
         {
-            //var maxValue = db.gameInfo.Max(x => x.gameNumber);
+            GameInfo initalSetup = (from S in db.gameInfo where S.gameInfoId == 1 select S).FirstOrDefault();
+            currentGame = currentGame.serialization(initalSetup);
+            var maxValue = db.gameInfo.Max(x => x.gameNumber);
             currentGame.turn = 0;
-            currentGame.gameID = 0;
-       
+            currentGame.gameID = maxValue + 1;
 
             return currentGame;
         }
@@ -943,5 +944,6 @@ namespace Draughts
             }
 
         }
+
     }
 }
