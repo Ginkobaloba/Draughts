@@ -24,7 +24,6 @@ namespace Draughts
     public class DatabaseContext : DbContext
     {
         public DbSet<GameInfo> gameInfo { get; set; }
-        public DbSet<GameInfoHistory> gameInfoHistory { get; set; }
     }
 
 }

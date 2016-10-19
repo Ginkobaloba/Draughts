@@ -12,7 +12,6 @@ namespace Draughts
         public int turn { get; set; }                                       
         public List<List<int>> CheckerBoard = new List<List<int>>();
 
-
         public CheckerBoardArray()
         {         
         }

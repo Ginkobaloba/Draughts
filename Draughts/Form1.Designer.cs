@@ -749,7 +749,6 @@
             this.Square1.Size = new System.Drawing.Size(150, 150);
             this.Square1.TabIndex = 0;
             this.Square1.TabStop = false;
-            this.Square1.Click += new System.EventHandler(this.Square1_Click);
             // 
             // Form1
             // 

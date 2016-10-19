@@ -10,6 +10,7 @@ namespace Draughts
         public int gameInfoId { get; set; }
         public int gameNumber { get; set; }
         public int turn { get; set; }
+        public int? winner { get; set; }
         public int square1 { get; set; }
         public int square3 { get; set; }
         public int square5 { get; set; }

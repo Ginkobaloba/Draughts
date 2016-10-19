@@ -64,7 +64,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameInfoHistory.cs" />
     <Compile Include="Migrations\201610172211564_fresh.cs" />
     <Compile Include="Migrations\201610172211564_fresh.Designer.cs">
       <DependentUpon>201610172211564_fresh.cs</DependentUpon>

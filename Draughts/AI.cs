@@ -12,26 +12,30 @@ namespace Draughts
         public AI()
         { }
 
-        public GameInfo MakeAMove(GameInfo currentGame, int callingPlayer)
+        public GameInfo MakeAMove(CheckerBoardArray needsToBeSerialized, int callingPlayer)
         {
             Random random = new Random();
-            List<GameInfoHistory> Nextmove = new List<GameInfoHistory>();
+            List<GameInfo> possibleNextMoves = new List<GameInfo>();
+            GameInfo currentGame = new GameInfo();
+
+            currentGame = currentGame.Serialization(needsToBeSerialized);
 
 
-            var SameBoardState = (from GH in db.gameInfoHistory
-                                  where GH.GameInfo.square1 == currentGame.square1 && GH.GameInfo.square3 == currentGame.square3 && GH.GameInfo.square5 == currentGame.square5 && GH.GameInfo.square7 == currentGame.square7 && GH.GameInfo.square10 == currentGame.square10 && GH.GameInfo.square12 == currentGame.square1 &&
-                                  GH.GameInfo.square14 == currentGame.square14 && GH.GameInfo.square16 == currentGame.square16 && GH.GameInfo.square17 == currentGame.square17 && GH.GameInfo.square19 == currentGame.square19 && GH.GameInfo.square21 == currentGame.square21 && GH.GameInfo.square23 == currentGame.square23 &&
-                                  GH.GameInfo.square26 == currentGame.square26 && GH.GameInfo.square28 == currentGame.square28 && GH.GameInfo.square30 == currentGame.square30 && GH.GameInfo.square32 == GH.GameInfo.square32 && GH.GameInfo.square33 == currentGame.square33 && GH.GameInfo.square35 == currentGame.square35 &&
-                                  GH.GameInfo.square37 == currentGame.square37 && GH.GameInfo.square39 == currentGame.square39 && GH.GameInfo.square42 == currentGame.square42 && GH.GameInfo.square44 == currentGame.square44 && GH.GameInfo.square46 == currentGame.square46 && GH.GameInfo.square48 == currentGame.square49 &&
-                                  GH.GameInfo.square51 == currentGame.square51 && GH.GameInfo.square53 == currentGame.square53 && GH.GameInfo.square55 == currentGame.square55 && GH.GameInfo.square58 == currentGame.square58 && GH.GameInfo.square60 == currentGame.square60 && GH.GameInfo.square62 == currentGame.square62 &&
-                                  GH.GameInfo.square64 == currentGame.square64
-                                  select GH).ToList();
+            var SameBoardState = (from GI in db.gameInfo
+                                  where GI.square1 == currentGame.square1 && GI.square3 == currentGame.square3 && GI.square5 == currentGame.square5 && GI.square7 == currentGame.square7 && GI.square10 == currentGame.square10 && GI.square12 == currentGame.square1 &&
+                                  GI.square14 == currentGame.square14 && GI.square16 == currentGame.square16 && GI.square17 == currentGame.square17 && GI.square19 == currentGame.square19 && GI.square21 == currentGame.square21 && GI.square23 == currentGame.square23 &&
+                                  GI.square26 == currentGame.square26 && GI.square28 == currentGame.square28 && GI.square30 == currentGame.square30 && GI.square32 == currentGame.square32 && GI.square33 == currentGame.square33 && GI.square35 == currentGame.square35 &&
+                                  GI.square37 == currentGame.square37 && GI.square39 == currentGame.square39 && GI.square42 == currentGame.square42 && GI.square44 == currentGame.square44 && GI.square46 == currentGame.square46 && GI.square48 == currentGame.square49 &&
+                                  GI.square51 == currentGame.square51 && GI.square53 == currentGame.square53 && GI.square55 == currentGame.square55 && GI.square58 == currentGame.square58 && GI.square60 == currentGame.square60 && GI.square62 == currentGame.square62 &&
+                                  GI.square64 == currentGame.square64
+                                  select GI).ToList();
+
             if (SameBoardState != null)
             {
                 foreach (var item in SameBoardState)
                 {
-                    int nextTurn = item.GameInfo.turn + 1;
-                    Nextmove = (from NM in db.gameInfoHistory where NM.GameInfoID == item.GameInfoID && NM.GameInfo.turn == nextTurn && NM.Winner == callingPlayer select NM).ToList();
+                    int nextTurn = item.turn + 1;
+                    possibleNextMoves = (from PNM in db.gameInfo where PNM.gameNumber == item.gameNumber && PNM.turn == nextTurn && PNM.winner == callingPlayer select PNM).ToList();
                 }
 
             }
@@ -39,16 +43,16 @@ namespace Draughts
 
             if (random.Next(0, 5)> 1)
             {
-                switch (Nextmove.Count) {
+                switch (possibleNextMoves.Count) {
                     case 0:
                         randomNextMove(currentGame, callingPlayer);
                         break;
                     case 1:
 
-                        currentGame = Nextmove[0].GameInfo;
+                        currentGame = possibleNextMoves[0];
                         break;
                     default:
-                        MinMaxEvaluation(Nextmove);
+                        MinMaxEvaluation(possibleNextMoves);
                         break;
 
 
@@ -62,7 +66,7 @@ namespace Draughts
             return currentGame;
         }
 
-        public void MinMaxEvaluation(List<GameInfoHistory>PossibleMoves)
+        public void MinMaxEvaluation(List<GameInfo>PossibleMoves)
         {
 
         }

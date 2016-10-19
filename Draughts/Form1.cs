@@ -18,7 +18,7 @@ namespace Draughts
         public Form1()
         {
             InitializeComponent();
-            GameInfo currentGame = new GameInfo();
+            CheckerBoardArray currentGame = new CheckerBoardArray();
             currentGame = SetupInital(currentGame);
             LinkToGUI(currentGame);
         }
@@ -50,8 +50,18 @@ namespace Draughts
 
             }
         }
-        public CheckerBoardArray SetupInital(GameInfo currentGame)
+        public CheckerBoardArray SetupInital(CheckerBoardArray currentGame)
         {
+
+       
+
+            return currentGame;
+        }
+
+
+        public void AddInitalSetupTemp()
+        {
+            GameInfo currentGame = new GameInfo();
             currentGame.turn = 0;
             currentGame.square1 = 1;
             currentGame.square3 = 1;
@@ -78,14 +88,9 @@ namespace Draughts
             currentGame.square62 = -1;
             currentGame.square64 = -1;
 
+            db.gameInfo.Add(currentGame);
 
-
-
-            return currentGame;
         }
-
-
-
         public void LinkToGUI(GameInfo currentGame)
         {
 
