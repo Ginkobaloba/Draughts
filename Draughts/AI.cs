@@ -77,10 +77,6 @@ namespace Draughts
         public List<CheckerBoardArray> GetPossibleMoves(CheckerBoardArray CurrentGame, int CallingPlayer)
         {
             List<CheckerBoardArray> PossibleMoves = new List<CheckerBoardArray>();
-            //GameInfo test1 = new GameInfo();
-            //CheckerBoardArray CurrentGame = new CheckerBoardArray;
-            // test.serialization(test1.Serialization(CurrentGame));
-
 
             switch (CallingPlayer) {
                 
@@ -116,8 +112,7 @@ namespace Draughts
                                     //diagonal right back  king
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] == 0 && i >= 1 && ii <= 6 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
@@ -127,8 +122,7 @@ namespace Draughts
                                     //diagonal left back king 
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] == 0 && i >= 1 && ii >= 1 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
@@ -139,8 +133,7 @@ namespace Draughts
                                     //diagonal Jump right Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && i <= 5 && ii <= 5)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -152,8 +145,7 @@ namespace Draughts
                                     //diagonal jump left Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && i >= 2 && ii >= 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -165,8 +157,7 @@ namespace Draughts
                                     //diagonal Jump right king back
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && i >= 2 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -178,8 +169,7 @@ namespace Draughts
                                     //diagonal jump left king back                                                       
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && i >= 2 && ii >= 2 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
@@ -191,8 +181,7 @@ namespace Draughts
                                     //diagonal double Jump right Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii + 4] == 0 && i <= 3 && ii <= 3)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -206,8 +195,7 @@ namespace Draughts
                                     //diagonal double Jump left Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii - 4] == 0 && i <= 3 && ii >= 4)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -221,8 +209,7 @@ namespace Draughts
                                     //diagonal double Jump right then middle Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -236,8 +223,7 @@ namespace Draughts
                                     //diagonal double Jump left then middle Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii >= 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -251,8 +237,7 @@ namespace Draughts
                                     //diagonal double Jump right back king
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii + 4] == 0 && i >= 4 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -266,8 +251,7 @@ namespace Draughts
                                     //diagonal double Jump left back king
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii - 4] == 0 && i >= 4 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
@@ -280,8 +264,7 @@ namespace Draughts
                                     //diagonal double Jump right then middle back king
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -295,8 +278,7 @@ namespace Draughts
                                     //diagonal double Jump left then middle back king
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -310,8 +292,7 @@ namespace Draughts
                                     //diagonal double Jump right front sideways King
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i <= 5 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -325,8 +306,7 @@ namespace Draughts
                                     //diagonal double Jump left right sideways king
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -342,8 +322,7 @@ namespace Draughts
                                     //diagonal double Jump right back sideways King
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i >= 2 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -357,8 +336,7 @@ namespace Draughts
                                     //diagonal double Jump left back sideways king
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i >= 2 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
@@ -392,8 +370,7 @@ namespace Draughts
                                     //diagonal right unpromoted or king
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] == 0 && i >= 1 && ii <= 6)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
@@ -403,8 +380,7 @@ namespace Draughts
                                     //diagonal left Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] == 0 && i >= 1 && ii >= 1)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
@@ -414,8 +390,7 @@ namespace Draughts
                                     //diagonal right back  king
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i >= 1 && ii <= 6 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
@@ -425,8 +400,7 @@ namespace Draughts
                                     //diagonal left back king 
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] == 0 && i >= 1 && ii >= 1 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
@@ -437,8 +411,7 @@ namespace Draughts
                                     //diagonal Jump right Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && i >= 2 && ii <= 5)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -450,8 +423,7 @@ namespace Draughts
                                     //diagonal jump left Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && i >= 2 && ii >= 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
@@ -463,8 +435,7 @@ namespace Draughts
                                     //diagonal Jump right king back
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && i <= 5 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -476,8 +447,7 @@ namespace Draughts
                                     //diagonal jump left king back                                                       
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && i <= 5 && ii >= 2 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -489,8 +459,7 @@ namespace Draughts
                                     //diagonal double Jump right Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii + 4] == 0 && i >= 4 && ii <= 3)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -504,8 +473,7 @@ namespace Draughts
                                     //diagonal double Jump left Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i - 4][ii - 4] == 0 && i >= 4 && ii >= 4)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
@@ -519,8 +487,7 @@ namespace Draughts
                                     //diagonal double Jump right then middle Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 4][ii] == 0 && i >= 4 && ii <= 5)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -534,8 +501,7 @@ namespace Draughts
                                     //diagonal double Jump left then middle Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 4][ii] == 0 && i >= 4 && ii >= 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;
@@ -550,8 +516,7 @@ namespace Draughts
                                     //diagonal double Jump right back king
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii + 4] == 0 && i <= 3 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -565,8 +530,7 @@ namespace Draughts
                                     //diagonal double Jump left back king
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 3] < 0 && CurrentGame.CheckerBoard[i + 4][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -579,8 +543,7 @@ namespace Draughts
                                     //diagonal double Jump right then middle back king
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -594,8 +557,7 @@ namespace Draughts
                                     //diagonal double Jump left then middle back king
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 3][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 4][ii] == 0 && i <= 3 && ii <= 5 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -609,8 +571,7 @@ namespace Draughts
                                     //diagonal double Jump right front sideways King
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i <= 5 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = 0;
@@ -624,8 +585,7 @@ namespace Draughts
                                     //diagonal double Jump left right sideways king
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i + 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i + 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i <= 3 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = 0;
@@ -641,8 +601,7 @@ namespace Draughts
                                     //diagonal double Jump right back sideways King
                                     if (CurrentGame.CheckerBoard[i - 1][ii + 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii + 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii + 3] < 0 && CurrentGame.CheckerBoard[i][ii + 4] == 0 && i >= 2 && ii <= 3 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii + 1] = 0;
@@ -656,8 +615,7 @@ namespace Draughts
                                     //diagonal double Jump left back sideways king
                                     if (CurrentGame.CheckerBoard[i - 1][ii - 1] < 0 && CurrentGame.CheckerBoard[i - 2][ii - 2] == 0 && CurrentGame.CheckerBoard[i - 1][ii - 3] < 0 && CurrentGame.CheckerBoard[i][ii - 4] == 0 && i >= 2 && ii >= 4 && CurrentGame.CheckerBoard[i][ii] == 2)
                                     {
-                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
-                                        PossibleMove = CurrentGame;
+                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();                                        
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i - 1][ii - 1] = 0;

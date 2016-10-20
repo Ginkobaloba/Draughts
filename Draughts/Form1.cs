@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Web;
-using System.Resources;
-using System.Threading;
+
 
 namespace Draughts
 {
     public partial class Form1 : Form
-    {
+    {   
         private DatabaseContext db = new DatabaseContext();
         public Form1()
         {
@@ -29,7 +23,6 @@ namespace Draughts
         private void btnStart_Click(object sender, EventArgs e)
         {
 
-            InitializeComponent();
             CheckerBoardArray currentGame = new CheckerBoardArray();
             currentGame = SetupInital(currentGame);
             Random random = new Random();
@@ -48,7 +41,7 @@ namespace Draughts
                     callingplayer = 1;
 
                 LinkToGUI(currentGame);
-
+                this.Update();
 
             }
 
@@ -121,7 +114,7 @@ namespace Draughts
 
             switch (currentGame.CheckerBoard[0][0])
             {
-                case -2:
+                case -2:              
                     Square1.BackgroundImage = Properties.Resources.kingblue;
                     Square1.BackgroundImageLayout = ImageLayout.Stretch;                   
                     break;
@@ -344,26 +337,14 @@ namespace Draughts
                 case -1:
                     Square17.BackgroundImage = Properties.Resources.blue;
                     Square17.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square17.Invalidate();
-                    Square17.Update();
-                    Square17.Refresh();
-                    Application.DoEvents();
                     break;
                 case 0:
                     Square17.BackgroundImage = Properties.Resources.white;
                     Square17.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square17.Invalidate();
-                    Square17.Update();
-                    Square17.Refresh();
-                    Application.DoEvents();
                     break;
                 case 1:
                     Square17.BackgroundImage = Properties.Resources.red;
                     Square17.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square17.Invalidate();
-                    Square17.Update();
-                    Square17.Refresh();
-                    Application.DoEvents();
                     break;
                 case 2:
                     Square17.BackgroundImage = Properties.Resources.kingred;
@@ -383,26 +364,14 @@ namespace Draughts
                 case -1:
                     Square19.BackgroundImage = Properties.Resources.blue;
                     Square19.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square19.Invalidate();
-                    Square19.Update();
-                    Square19.Refresh();
-                    Application.DoEvents();
                     break;
                 case 0:
                     Square19.BackgroundImage = Properties.Resources.white;
                     Square19.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square19.Invalidate();
-                    Square19.Update();
-                    Square19.Refresh();
-                    Application.DoEvents();
                     break;
                 case 1:
                     Square19.BackgroundImage = Properties.Resources.red;
                     Square19.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square19.Invalidate();
-                    Square19.Update();
-                    Square19.Refresh();
-                    Application.DoEvents();
                     break;
                 case 2:
                     Square19.BackgroundImage = Properties.Resources.kingred;
@@ -421,26 +390,14 @@ namespace Draughts
                 case -1:
                     Square21.BackgroundImage = Properties.Resources.blue;
                     Square21.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square21.Invalidate();
-                    Square21.Update();
-                    Square21.Refresh();
-                    Application.DoEvents();
                     break;
                 case 0:
                     Square21.BackgroundImage = Properties.Resources.white;
                     Square21.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square21.Invalidate();
-                    Square21.Update();
-                    Square21.Refresh();
-                    Application.DoEvents();
                     break;
                 case 1:
                     Square21.BackgroundImage = Properties.Resources.red;
                     Square21.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square21.Invalidate();
-                    Square21.Update();
-                    Square21.Refresh();
-                    Application.DoEvents();
                     break;
                 case 2:
                     Square21.BackgroundImage = Properties.Resources.kingred;
@@ -459,26 +416,15 @@ namespace Draughts
                 case -1:
                     Square23.BackgroundImage = Properties.Resources.blue;
                     Square23.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square23.Invalidate();
-                    Square23.Update();
-                    Square23.Refresh();
-                    Application.DoEvents();
                     break;
                 case 0:
                     Square23.BackgroundImage = Properties.Resources.white;
                     Square23.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square23.Invalidate();
-                    Square23.Update();
-                    Square23.Refresh();
-                    Application.DoEvents();
                     break;
                 case 1:
                     Square23.BackgroundImage = Properties.Resources.red;
                     Square23.BackgroundImageLayout = ImageLayout.Stretch;
-                    Square23.Invalidate();
-                    Square23.Update();
-                    Square23.Refresh();
-                    Application.DoEvents();
+  
                     break;
                 case 2:
                     Square23.BackgroundImage = Properties.Resources.kingred;
@@ -1010,7 +956,13 @@ namespace Draughts
                     break;
             }
 
+           
         }
 
+        private void Square28_Click(object sender, EventArgs e)
+        {
+            Square28.BackgroundImage = Properties.Resources.kingblue;
+
+        }
     }
 }

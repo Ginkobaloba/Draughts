@@ -502,6 +502,7 @@
             this.Square28.Size = new System.Drawing.Size(150, 150);
             this.Square28.TabIndex = 29;
             this.Square28.TabStop = false;
+            this.Square28.Click += new System.EventHandler(this.Square28_Click);
             // 
             // Square29
             // 
