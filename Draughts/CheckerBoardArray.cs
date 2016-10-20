@@ -13,22 +13,21 @@ namespace Draughts
         public List<List<int>> CheckerBoard = new List<List<int>>();
 
         public CheckerBoardArray()
-        {         
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                List<int> row = new List<int>();
+                for (int ii = 0; ii < 8; ii++)
+                {
+                    row.Add(0);
+                }
+                this.CheckerBoard.Add(row);
+            }
         }
         public CheckerBoardArray serialization(GameInfo Gameinfo)
         {
             this.gameID = Gameinfo.gameInfoId;
 
-            for (int i = 0; i < 8; i++)
-            {
-                List<int> oneRow = new List<int>();
-                for (int ii = 0; ii < 8; ii++)
-                {
-                    int A = new int();
-                    oneRow.Add(A);
-                }
-                CheckerBoard.Add(oneRow);
-            }
             this.turn = Gameinfo.turn;
             this.CheckerBoard[0][0] = Gameinfo.square1;
             this.CheckerBoard[0][2] = Gameinfo.square3;
@@ -64,6 +63,24 @@ namespace Draughts
             this.CheckerBoard[7][7] = Gameinfo.square64;
 
             return this;
+        }
+        public CheckerBoardArray ShallowCopy()
+        {
+            CheckerBoardArray copy = new CheckerBoardArray();
+
+            copy.gameID = this.gameID;
+            copy.turn = this.turn;
+ 
+            for (int i = 0; i < 8; i++)
+            {
+                for (int ii = 0; ii < 8; ii++)
+                {
+                    copy.CheckerBoard[i][ii] = this.CheckerBoard[i][ii];
+                }
+            }
+            
+            return copy;
+
         }
         public CheckerBoardArray Clone() { return (CheckerBoardArray)this.MemberwiseClone(); }
         object ICloneable.Clone() { return Clone(); }

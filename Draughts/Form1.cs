@@ -29,22 +29,25 @@ namespace Draughts
             AI ai = new AI();
             int callingplayer = 1;
 
-            List<CheckerBoardArray> possiblemoves = new List<CheckerBoardArray>();
-            possiblemoves = ai.GetPossibleMoves(currentGame, callingplayer);
+            while (true)
+            {
+                List<CheckerBoardArray> possiblemoves = new List<CheckerBoardArray>();
+                possiblemoves = ai.GetPossibleMoves(currentGame, callingplayer);
 
-            int P = random.Next(0, possiblemoves.Count);
-            if (possiblemoves.Count > 0) {
-                currentGame = possiblemoves[P];
-                if (callingplayer == 1)
-                    callingplayer = -1;
-                else
-                    callingplayer = 1;
+                int P = random.Next(0, possiblemoves.Count);
+                if (possiblemoves.Count > 0)
+                {
+                    currentGame = possiblemoves[P];
+                    if (callingplayer == 1)
+                        callingplayer = -1;
+                    else
+                        callingplayer = 1;
 
-                LinkToGUI(currentGame);
-                this.Update();
+                    LinkToGUI(currentGame);
+                    this.Update();
 
+                }
             }
-
 
 
 
@@ -959,10 +962,5 @@ namespace Draughts
            
         }
 
-        private void Square28_Click(object sender, EventArgs e)
-        {
-            Square28.BackgroundImage = Properties.Resources.kingblue;
-
-        }
     }
 }

@@ -84,7 +84,7 @@ namespace Draughts
                     for (int i = 0; i < 8; i++)
                     {
                         for (int ii = 0; ii < 8; ii++)
-                        {
+                       {
                             try
                             {
                                 if (CurrentGame.CheckerBoard[i][ii] > 0)
@@ -92,7 +92,8 @@ namespace Draughts
                                     //diagonal right unpromoted or king
                                     if (CurrentGame.CheckerBoard[i + 1][ii + 1] == 0 && i <= 6 && ii <= 6)
                                     {
-                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame.ShallowCopy();
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii + 1] = PossibleMove.CheckerBoard[i][ii];
@@ -102,7 +103,8 @@ namespace Draughts
                                     //diagonal left Unpromoted or promoted
                                     if (CurrentGame.CheckerBoard[i + 1][ii - 1] == 0 && i <= 6 && ii >= 1)
                                     {
-                                        CheckerBoardArray PossibleMove = CurrentGame.Clone();
+                                        CheckerBoardArray PossibleMove = new CheckerBoardArray();
+                                        PossibleMove = CurrentGame.ShallowCopy();
                                         PossibleMove.turn = CurrentGame.turn + 1;
                                         PossibleMove.gameID = CurrentGame.gameID;
                                         PossibleMove.CheckerBoard[i + 1][ii - 1] = PossibleMove.CheckerBoard[i][ii];
