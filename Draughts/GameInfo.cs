@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -82,7 +83,6 @@ namespace Draughts
             this.square60 = checkerBoard.CheckerBoard[7][3];
             this.square62 = checkerBoard.CheckerBoard[7][5];
             this.square64 = checkerBoard.CheckerBoard[7][7];
-
             return this;
 
         }

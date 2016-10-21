@@ -27,3 +27,4 @@ C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.fresh.res
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.updateddatabasemodel.resources
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.Updatedmodel.resources
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.removedvirtuallist.resources
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\DotNeuralNet.dll

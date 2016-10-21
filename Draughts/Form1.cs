@@ -7,63 +7,76 @@ using System.Windows.Forms;
 
 namespace Draughts
 {
-    public partial class Form1 : Form
-    {   
+    public partial class Form1 : Form , IDisposable
+    {
         private DatabaseContext db = new DatabaseContext();
+        public bool GameStarted = false;
+        CheckerBoardArray currentGame = new CheckerBoardArray();
+
         public Form1()
         {
             InitializeComponent();
-            CheckerBoardArray currentGame = new CheckerBoardArray();
             //AddInitalSetupTemp();
-            currentGame = SetupInital(currentGame);
-            LinkToGUI(currentGame);
+
         }
 
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            GameStarted = true;
 
-            CheckerBoardArray currentGame = new CheckerBoardArray();
             currentGame = SetupInital(currentGame);
-            Random random = new Random();
-            AI ai = new AI();
-            int callingplayer = 1;
-
-            while (true)
+          
+            if (rdbtnAllAI.Checked == true)
             {
+                Random random = new Random();
+                AI ai = new AI();
+                int callingplayer = 1;
                 List<CheckerBoardArray> possiblemoves = new List<CheckerBoardArray>();
-                possiblemoves = ai.GetPossibleMoves(currentGame, callingplayer);
 
-                int P = random.Next(0, possiblemoves.Count);
-                if (possiblemoves.Count > 0)
+                while (true)
                 {
-                    currentGame = possiblemoves[P];
-                    if (callingplayer == 1)
-                        callingplayer = -1;
-                    else
-                        callingplayer = 1;
 
-                    LinkToGUI(currentGame);
-                    this.Update();
+                    possiblemoves = ai.GetPossibleMoves(currentGame, callingplayer);
+                    if (possiblemoves.Count != 0)
+                    {
+                        int P = random.Next(0, possiblemoves.Count);
+                        if (possiblemoves.Count > 0)
+                        {
+                            currentGame = possiblemoves[P];
+                            if (callingplayer == 1)
+                                callingplayer = -1;
+                            else
+                                callingplayer = 1;
+
+                            LinkToGUI(currentGame);
+
+                                this.Update();
+                        }
+                        }
+                    else
+                    {
+                        currentGame = SetupInital(currentGame);
+                        GC.Collect();
+                        GC.WaitForFullGCComplete(-1);
+                    }
 
                 }
+
+
+
             }
+            else if (rdbtn2player.Checked == true)
+            {
+                LinkToGUI(currentGame);
 
+            }
+            else
+            {
 
-
-            //if (rdbtnAllAI.Checked == true)
-            //{   //var currentgame = (from cp in db.gameInfo where cp.gameInfo)
-            //    //var query = (from Q in db.gameInfoHistory where Q.gameinfo.gameInfo == );
-            //}
-            //else if (rdbtn2player.Checked == true)
-            //{
-
-            //}
-            //else
-            //{
-
-            //}
+            }
         }
+        
         public CheckerBoardArray SetupInital(CheckerBoardArray currentGame)
         {
             GameInfo initalSetup = (from S in db.gameInfo where S.gameInfoId == 1 select S).FirstOrDefault();
@@ -105,21 +118,572 @@ namespace Draughts
             currentGame.square62 = -1;
             currentGame.square64 = -1;
 
-            
+
             var database = db.Set<GameInfo>();
             database.Add(currentGame);
 
             db.SaveChanges();
 
         }
-        public void LinkToGUI(CheckerBoardArray currentGame)
+
+        public void HumanMoveInfo(int clickedRow, int clickedCol)
+        {
+            if (GameStarted == true)
+            {
+                int FirstClickedRow = 0;
+                int FirstClickedCol = 0;
+
+                string eval = clickedRow.ToString() + clickedCol.ToString();
+
+                bool trigger = false;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int ii = 0; ii < 8; ii++)
+                    {
+                        string III = i.ToString() + ii.ToString();
+                        if (currentGame.SelectedStatus[i][ii] && III != eval)
+                        {
+                            trigger = true;
+                            FirstClickedRow = i;
+                            FirstClickedCol = ii;
+                        }
+                    }
+                }
+
+                if (trigger)
+                {
+                    trigger = false;
+                    HumanMoveEval(FirstClickedRow, FirstClickedCol, clickedRow, clickedCol);
+                }
+                else
+                {
+                    //HumanMoveHighlight(clickedRow, clickedCol);
+                }
+
+            }
+        }
+        public void HumanMoveEval(int firstRow, int firstCol, int secondRow, int secondCol)
+        {
+            CheckerBoardArray PossibleMove = currentGame.ShallowCopy();
+
+            if (currentGame.CheckerBoard[firstRow][firstCol] > 0)
+            {
+                //diagonal right unpromoted or king
+                if (firstRow <= 6 && firstCol <= 6 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] == 0 && firstRow + 1 == secondRow && firstCol + 1 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal left Unpromoted or promoted
+                if (firstRow <= 6 && firstCol >= 1 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] == 0 && firstRow + 1 == secondRow && firstCol - 1 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal right back  king
+                if (firstRow >= 1 && firstCol <= 6 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow - 1 == secondRow && firstCol + 1 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal left back king 
+                if (firstRow >= 1 && firstCol >= 1 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow - 1 == secondRow && firstCol - 1 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal Jump right Unpromoted or promoted
+                if (firstRow <= 5 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && firstRow + 2 == secondRow && firstCol + 2 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal jump left Unpromoted or promoted
+                if (firstRow <= 5 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && firstRow + 2 == secondRow && firstCol - 2 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal Jump right king back
+                if (firstRow >= 2 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow - 2 == secondRow && firstCol + 2 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal jump left king back                                                       
+                if (firstRow >= 2 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow - 2 == secondRow && firstCol - 2 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump right Unpromoted or promoted
+                if (firstRow <= 3 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol + 4] == 0 && firstRow + 4 == secondRow && firstCol + 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump left Unpromoted or promoted
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol - 4] == 0 && firstRow + 4 == secondRow && firstCol - 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump right then middle Unpromoted or promoted
+                if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && firstRow + 4 == secondRow && firstCol == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump left then middle Unpromoted or promoted
+                if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && firstRow + 4 == secondRow && firstCol == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump right back king
+                if (firstRow >= 4 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow - 4][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow - 4 == secondRow && firstCol + 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 3][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 4][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump left back king
+                if (firstRow >= 4 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow - 4][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow - 1 == secondRow && firstCol - 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+                //diagonal double Jump right then middle back king
+                if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump left then middle back king
+                if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow + 4 == secondRow && firstCol == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump right front sideways King
+                if (firstRow <= 5 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow == secondRow && firstCol + 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump left right sideways king
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow == secondRow && firstCol - 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump right back sideways King
+                if (firstRow >= 2 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow == secondRow && firstCol + 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+
+                //diagonal double Jump left back sideways king
+                if (firstRow >= 2 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2 && firstRow == secondRow && firstCol - 4 == secondCol)
+                {
+
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+
+                }
+            }
+            else if (currentGame.CheckerBoard[firstRow][firstCol] < 0)
+            {
+
+                //diagonal blue right unpromoted or king
+                if (firstRow >=1 && firstCol <= 6 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] == 0 && firstRow - 1 == secondRow && firstCol + 1 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal blue left Unpromoted or promoted
+                if (firstRow >= 1 && firstCol >= 1 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] == 0 && firstRow - 1 == secondRow && firstCol - 1 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal blue right back  king
+                if (firstRow <= 6 && firstCol <= 6 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 1 == secondRow && firstCol + 1 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal blue left back king 
+                if (firstRow <= 6 && firstCol >= 1 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 1 == secondRow && firstCol - 1 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal blue Jump right Unpromoted or promoted
+                if (firstRow >= 2 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && firstRow - 2 == secondRow && firstCol + 2 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal jump left Unpromoted or promoted
+                if (firstRow >= 2 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && firstRow - 2 == secondRow && firstCol - 2 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal Jump right king back
+                if (firstRow <= 5 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 2 == secondRow && firstCol + 2 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal jump left king back                                                       
+                if (firstRow <= 5 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 2 == secondRow && firstCol - 2 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump right Unpromoted or promoted
+                if (firstRow >= 4 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol + 4] == 0 && firstRow - 4 == secondRow && firstCol + 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 3][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 4][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump left Unpromoted or promoted
+                if (firstRow >= 4 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol - 4] == 0 && firstRow - 4 == secondRow && firstCol - 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 3][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 4][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump right then middle Unpromoted or promoted
+                if (firstRow >= 4 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol] == 0 && firstRow - 4 == secondRow && firstCol == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 3][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump left then middle Unpromoted or promoted
+                if (firstRow >= 4 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol] == 0 && firstRow - 4 == secondRow && firstCol == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 3][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+
+                //diagonal double Jump right back king
+                if (firstRow <= 3 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 4 == secondRow && firstCol + 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump left back king
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 1 == secondRow && firstCol - 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+                //diagonal double Jump right then middle back king
+                if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 4 == secondRow && firstCol == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump left then middle back king
+                if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow + 4 == secondRow && firstCol == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 3][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 4][firstCol] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump right front sideways King
+                if (firstRow <= 5 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow == secondRow && firstCol + 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump left right sideways king
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow == secondRow && firstCol - 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow + 1][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstRow - 4] = PossibleMove.CheckerBoard[firstRow][firstRow];
+                    PossibleMove.CheckerBoard[firstRow][firstRow] = 0;
+                }
+
+                //diagonal double Jump right back sideways King
+                if (firstRow >= 2 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow == secondRow && firstCol + 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol + 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol + 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol + 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+
+                //diagonal double Jump left back sideways king
+                if (firstRow >= 2 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2 && firstRow == secondRow && firstCol - 4 == secondCol)
+                {
+                    PossibleMove.turn = currentGame.turn + 1;
+                    PossibleMove.gameID = currentGame.gameID;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 1] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 2][firstCol - 2] = 0;
+                    PossibleMove.CheckerBoard[firstRow - 1][firstCol - 3] = 0;
+                    PossibleMove.CheckerBoard[firstRow][firstCol - 4] = PossibleMove.CheckerBoard[firstRow][firstCol];
+                    PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
+                }
+            }
+        
+
+            currentGame = PossibleMove.ShallowCopy();
+            for (int i = 0; i < 8; i++)
+            {
+                for(int ii = 0; ii < 8; ii++)
+                {
+                    currentGame.SelectedStatus[i][ii] = false;
+                }
+            }
+           currentGame = FindKings(currentGame);
+            
+            LinkToGUI(currentGame);
+        }
+
+        public CheckerBoardArray FindKings(CheckerBoardArray possibleMove)
         {
 
-            switch (currentGame.CheckerBoard[0][0])
+                for (int i = 0; i < 8; i++)
+                {
+                    if (possibleMove.CheckerBoard[7][i] == 1)
+                    {
+                        possibleMove.CheckerBoard[7][i] = 2;
+                    }
+                    else if (possibleMove.CheckerBoard[0][i] == -1)
+                    {
+                        possibleMove.CheckerBoard[0][i] = -2;
+                    }
+
+                }
+
+            return possibleMove;
+
+            }
+
+
+
+        public void LinkToGUI(CheckerBoardArray currentGame)
+        {
+            DisposeOldImages();
+              
+                switch (currentGame.CheckerBoard[0][0])
             {
-                case -2:              
+                case -2:
                     Square1.BackgroundImage = Properties.Resources.kingblue;
-                    Square1.BackgroundImageLayout = ImageLayout.Stretch;                   
                     break;
                 case -1:
                     Square1.BackgroundImage = Properties.Resources.blue;
@@ -155,7 +719,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square3.BackgroundImage = Properties.Resources.white;
-                    Square3.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square3.BackgroundImage = Properties.Resources.red;
@@ -183,7 +746,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square5.BackgroundImage = Properties.Resources.white;
-                    Square5.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square5.BackgroundImage = Properties.Resources.red;
@@ -200,7 +762,7 @@ namespace Draughts
            
 
             switch (currentGame.CheckerBoard[0][6])
-            {
+            {  
                 case -2:
                     Square7.BackgroundImage = Properties.Resources.kingblue;
                     Square7.BackgroundImageLayout = ImageLayout.Stretch;
@@ -211,7 +773,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square7.BackgroundImage = Properties.Resources.white;
-                    Square7.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square7.BackgroundImage = Properties.Resources.red;
@@ -239,7 +800,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square10.BackgroundImage = Properties.Resources.white;
-                    Square10.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square10.BackgroundImage = Properties.Resources.red;
@@ -266,7 +826,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square12.BackgroundImage = Properties.Resources.white;
-                    Square12.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square12.BackgroundImage = Properties.Resources.red;
@@ -292,7 +851,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square14.BackgroundImage = Properties.Resources.white;
-                    Square14.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square14.BackgroundImage = Properties.Resources.red;
@@ -318,7 +876,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square16.BackgroundImage = Properties.Resources.white;
-                    Square16.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square16.BackgroundImage = Properties.Resources.red;
@@ -343,7 +900,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square17.BackgroundImage = Properties.Resources.white;
-                    Square17.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square17.BackgroundImage = Properties.Resources.red;
@@ -369,7 +925,7 @@ namespace Draughts
                     Square19.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 0:
-                    Square19.BackgroundImage = Properties.Resources.white;
+                    Square19.BackgroundImage =Properties.Resources.white;
                     Square19.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
@@ -396,7 +952,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square21.BackgroundImage = Properties.Resources.white;
-                    Square21.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square21.BackgroundImage = Properties.Resources.red;
@@ -422,7 +977,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square23.BackgroundImage = Properties.Resources.white;
-                    Square23.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square23.BackgroundImage = Properties.Resources.red;
@@ -450,7 +1004,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square26.BackgroundImage = Properties.Resources.white;
-                    Square26.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square26.BackgroundImage = Properties.Resources.red;
@@ -476,7 +1029,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square28.BackgroundImage = Properties.Resources.white;
-                    Square28.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square28.BackgroundImage = Properties.Resources.red;
@@ -502,7 +1054,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square30.BackgroundImage = Properties.Resources.white;
-                    Square30.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square30.BackgroundImage = Properties.Resources.red;
@@ -528,7 +1079,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square32.BackgroundImage = Properties.Resources.white;
-                    Square32.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square32.BackgroundImage = Properties.Resources.red;
@@ -553,7 +1103,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square33.BackgroundImage = Properties.Resources.white;
-                    Square33.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square33.BackgroundImage = Properties.Resources.red;
@@ -579,7 +1128,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square35.BackgroundImage = Properties.Resources.white;
-                    Square35.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square35.BackgroundImage = Properties.Resources.red;
@@ -605,7 +1153,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square37.BackgroundImage = Properties.Resources.white;
-                    Square37.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square37.BackgroundImage = Properties.Resources.red;
@@ -632,7 +1179,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square39.BackgroundImage = Properties.Resources.white;
-                    Square39.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square39.BackgroundImage = Properties.Resources.red;
@@ -659,7 +1205,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square42.BackgroundImage = Properties.Resources.white;
-                    Square42.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square42.BackgroundImage = Properties.Resources.red;
@@ -685,7 +1230,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square44.BackgroundImage = Properties.Resources.white;
-                    Square44.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square44.BackgroundImage = Properties.Resources.red;
@@ -711,7 +1255,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square46.BackgroundImage = Properties.Resources.white;
-                    Square46.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square46.BackgroundImage = Properties.Resources.red;
@@ -737,7 +1280,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square48.BackgroundImage = Properties.Resources.white;
-                    Square48.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square48.BackgroundImage = Properties.Resources.red;
@@ -762,7 +1304,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square49.BackgroundImage = Properties.Resources.white;
-                    Square49.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square49.BackgroundImage = Properties.Resources.red;
@@ -788,7 +1329,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square51.BackgroundImage = Properties.Resources.white;
-                    Square51.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square51.BackgroundImage = Properties.Resources.red;
@@ -814,7 +1354,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square53.BackgroundImage = Properties.Resources.white;
-                    Square53.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square53.BackgroundImage = Properties.Resources.red;
@@ -840,7 +1379,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square55.BackgroundImage = Properties.Resources.white;
-                    Square55.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square55.BackgroundImage = Properties.Resources.red;
@@ -867,7 +1405,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square58.BackgroundImage = Properties.Resources.white;
-                    Square58.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square58.BackgroundImage = Properties.Resources.red;
@@ -893,7 +1430,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square60.BackgroundImage = Properties.Resources.white;
-                    Square60.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square60.BackgroundImage = Properties.Resources.red;
@@ -919,7 +1455,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square62.BackgroundImage = Properties.Resources.white;
-                    Square62.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square62.BackgroundImage = Properties.Resources.red;
@@ -945,7 +1480,6 @@ namespace Draughts
                     break;
                 case 0:
                     Square64.BackgroundImage = Properties.Resources.white;
-                    Square64.BackgroundImageLayout = ImageLayout.Stretch;
                     break;
                 case 1:
                     Square64.BackgroundImage = Properties.Resources.red;
@@ -962,5 +1496,402 @@ namespace Draughts
            
         }
 
+        private void Square1_Click(object sender, EventArgs e)
+        {
+            int row = 0;
+            int col = 0;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+
+
+        }
+
+        private void Square3_Click(object sender, EventArgs e)
+        {
+            int row = 0;
+            int col = 2;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square5_Click(object sender, EventArgs e)
+        {
+            int row = 0;
+            int col = 4;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square7_Click(object sender, EventArgs e)
+        {
+            int row = 0;
+            int col = 6;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square10_Click(object sender, EventArgs e)
+        {
+            int row = 1;
+            int col = 1;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square12_Click(object sender, EventArgs e)
+        {
+            int row = 1;
+            int col = 3;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square14_Click(object sender, EventArgs e)
+        {
+            int row = 1;
+            int col = 5;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square16_Click(object sender, EventArgs e)
+        {
+            int row = 1;
+            int col = 7;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square17_Click(object sender, EventArgs e)
+        {
+            int row = 2;
+            int col = 0;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square19_Click(object sender, EventArgs e)
+        {
+            int row = 2;
+            int col = 2;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square21_Click(object sender, EventArgs e)
+        {
+            int row = 2;
+            int col = 4;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square23_Click(object sender, EventArgs e)
+        {
+            int row = 2;
+            int col = 6;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square26_Click(object sender, EventArgs e)
+        {
+            int row = 3;
+            int col = 1;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square28_Click(object sender, EventArgs e)
+        {
+            int row = 3;
+            int col = 3;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square30_Click(object sender, EventArgs e)
+        {
+            int row = 3;
+            int col = 5;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square32_Click(object sender, EventArgs e)
+        {
+            int row = 3;
+            int col = 7;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+        private void Square33_Click(object sender, EventArgs e)
+        {
+            int row = 4;
+            int col = 0;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square35_Click(object sender, EventArgs e)
+        {
+            int row = 4;
+            int col = 2;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square37_Click(object sender, EventArgs e)
+        {
+            int row = 4;
+            int col = 4;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square39_Click(object sender, EventArgs e)
+        {
+            int row = 4;
+            int col = 6;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square42_Click(object sender, EventArgs e)
+        {
+            int row = 5;
+            int col = 1;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square44_Click(object sender, EventArgs e)
+        {
+            int row = 5;
+            int col = 3;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square46_Click(object sender, EventArgs e)
+        {
+            int row = 5;
+            int col = 5;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square48_Click(object sender, EventArgs e)
+        {
+            int row = 5;
+            int col = 7;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square49_Click(object sender, EventArgs e)
+        {
+            int row = 6;
+            int col = 0;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square51_Click(object sender, EventArgs e)
+        {
+            int row = 6;
+            int col = 2;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square53_Click(object sender, EventArgs e)
+        {
+            int row = 6;
+            int col = 4;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square55_Click(object sender, EventArgs e)
+        {
+            int row = 6;
+            int col = 6;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square58_Click(object sender, EventArgs e)
+        {
+            int row = 7;
+            int col = 1;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square60_Click(object sender, EventArgs e)
+        {
+            int row = 7;
+            int col = 3;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+
+        private void Square62_Click(object sender, EventArgs e)
+        {
+            int row = 7;
+            int col = 5;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+
+        private void Square64_Click(object sender, EventArgs e)
+        {
+            int row = 7;
+            int col = 7;
+
+            currentGame.SelectedStatus[row][col] = true;
+            HumanMoveInfo(row,col);
+        }
+        public void DisposeOldImages()
+        {
+
+         if (Square1.BackgroundImage != null)
+            {
+                Square1.BackgroundImage.Dispose();
+            }
+            if (Square3.BackgroundImage != null)
+            {
+                Square3.BackgroundImage.Dispose();
+            }
+            if (Square5.BackgroundImage != null)
+            {
+                Square5.BackgroundImage.Dispose();
+            }
+            if (Square7.BackgroundImage != null)
+            {
+                Square7.BackgroundImage.Dispose();
+            }
+            if (Square10.BackgroundImage != null)
+            {
+                Square10.BackgroundImage.Dispose();
+            }
+            if (Square12.BackgroundImage != null)
+            {
+                Square12.BackgroundImage.Dispose();
+            }
+            if (Square14.BackgroundImage != null)
+            {
+                Square14.BackgroundImage.Dispose();
+            }
+            if (Square16.BackgroundImage != null)
+            {
+                Square16.BackgroundImage.Dispose();
+            }
+            if (Square17.BackgroundImage != null)
+            {
+                Square17.BackgroundImage.Dispose();
+            }
+            if (Square19.BackgroundImage != null)
+            {
+                Square19.BackgroundImage.Dispose();
+            }
+            if (Square21.BackgroundImage != null)
+            {
+                Square21.BackgroundImage.Dispose();
+            }
+            if (Square23.BackgroundImage != null)
+            {
+                Square23.BackgroundImage.Dispose();
+            }
+            if (Square42.BackgroundImage != null)
+            {
+                Square42.BackgroundImage.Dispose();
+            }
+            if (Square44.BackgroundImage != null)
+            {
+                Square44.BackgroundImage.Dispose();
+            }
+            if (Square46.BackgroundImage != null)
+            {
+                Square46.BackgroundImage.Dispose();
+            }
+            if (Square48.BackgroundImage != null)
+            {
+                Square48.BackgroundImage.Dispose();
+            }
+            if (Square49.BackgroundImage != null)
+            {
+                Square49.BackgroundImage.Dispose();
+            }
+            if (Square51.BackgroundImage != null)
+            {
+                Square51.BackgroundImage.Dispose();
+            }
+            if (Square53.BackgroundImage != null)
+            {
+                Square53.BackgroundImage.Dispose();
+            }
+            if (Square55.BackgroundImage != null)
+            {
+                Square55.BackgroundImage.Dispose();
+            }
+            if (Square58.BackgroundImage != null)
+            {
+                Square58.BackgroundImage.Dispose();
+            }
+            if (Square60.BackgroundImage != null)
+            {
+                Square60.BackgroundImage.Dispose();
+            }
+            if (Square62.BackgroundImage != null)
+            {
+                Square62.BackgroundImage.Dispose();
+            }
+            if (Square64.BackgroundImage != null)
+            {
+                Square64.BackgroundImage.Dispose();
+            }
+
+        }
     }
 }

@@ -213,6 +213,7 @@
             this.Square64.Size = new System.Drawing.Size(150, 150);
             this.Square64.TabIndex = 63;
             this.Square64.TabStop = false;
+            this.Square64.Click += new System.EventHandler(this.Square64_Click);
             // 
             // Square56
             // 
@@ -230,6 +231,7 @@
             this.Square48.Size = new System.Drawing.Size(150, 150);
             this.Square48.TabIndex = 61;
             this.Square48.TabStop = false;
+            this.Square48.Click += new System.EventHandler(this.Square48_Click);
             // 
             // Square40
             // 
@@ -256,6 +258,7 @@
             this.Square55.Size = new System.Drawing.Size(150, 150);
             this.Square55.TabIndex = 58;
             this.Square55.TabStop = false;
+            this.Square55.Click += new System.EventHandler(this.Square55_Click);
             // 
             // Square47
             // 
@@ -273,6 +276,7 @@
             this.Square39.Size = new System.Drawing.Size(150, 150);
             this.Square39.TabIndex = 56;
             this.Square39.TabStop = false;
+            this.Square39.Click += new System.EventHandler(this.Square39_Click);
             // 
             // Square62
             // 
@@ -281,6 +285,7 @@
             this.Square62.Size = new System.Drawing.Size(150, 150);
             this.Square62.TabIndex = 55;
             this.Square62.TabStop = false;
+            this.Square62.Click += new System.EventHandler(this.Square62_Click);
             // 
             // Square54
             // 
@@ -298,6 +303,7 @@
             this.Square46.Size = new System.Drawing.Size(150, 150);
             this.Square46.TabIndex = 53;
             this.Square46.TabStop = false;
+            this.Square46.Click += new System.EventHandler(this.Square46_Click);
             // 
             // Square38
             // 
@@ -324,6 +330,7 @@
             this.Square53.Size = new System.Drawing.Size(150, 150);
             this.Square53.TabIndex = 50;
             this.Square53.TabStop = false;
+            this.Square53.Click += new System.EventHandler(this.Square53_Click);
             // 
             // Square45
             // 
@@ -341,6 +348,7 @@
             this.Square37.Size = new System.Drawing.Size(150, 150);
             this.Square37.TabIndex = 48;
             this.Square37.TabStop = false;
+            this.Square37.Click += new System.EventHandler(this.Square37_Click);
             // 
             // Square60
             // 
@@ -349,6 +357,7 @@
             this.Square60.Size = new System.Drawing.Size(150, 150);
             this.Square60.TabIndex = 47;
             this.Square60.TabStop = false;
+            this.Square60.Click += new System.EventHandler(this.Square60_Click);
             // 
             // Square52
             // 
@@ -366,6 +375,7 @@
             this.Square44.Size = new System.Drawing.Size(150, 150);
             this.Square44.TabIndex = 45;
             this.Square44.TabStop = false;
+            this.Square44.Click += new System.EventHandler(this.Square44_Click);
             // 
             // Square36
             // 
@@ -392,6 +402,7 @@
             this.Square51.Size = new System.Drawing.Size(150, 150);
             this.Square51.TabIndex = 42;
             this.Square51.TabStop = false;
+            this.Square51.Click += new System.EventHandler(this.Square51_Click);
             // 
             // Square43
             // 
@@ -409,6 +420,7 @@
             this.Square35.Size = new System.Drawing.Size(150, 150);
             this.Square35.TabIndex = 40;
             this.Square35.TabStop = false;
+            this.Square35.Click += new System.EventHandler(this.Square35_Click);
             // 
             // Square58
             // 
@@ -417,6 +429,7 @@
             this.Square58.Size = new System.Drawing.Size(150, 150);
             this.Square58.TabIndex = 39;
             this.Square58.TabStop = false;
+            this.Square58.Click += new System.EventHandler(this.Square58_Click);
             // 
             // Square50
             // 
@@ -434,6 +447,7 @@
             this.Square42.Size = new System.Drawing.Size(150, 150);
             this.Square42.TabIndex = 37;
             this.Square42.TabStop = false;
+            this.Square42.Click += new System.EventHandler(this.Square42_Click);
             // 
             // Square34
             // 
@@ -460,6 +474,7 @@
             this.Square49.Size = new System.Drawing.Size(150, 150);
             this.Square49.TabIndex = 34;
             this.Square49.TabStop = false;
+            this.Square49.Click += new System.EventHandler(this.Square49_Click);
             // 
             // Square41
             // 
@@ -477,6 +492,7 @@
             this.Square33.Size = new System.Drawing.Size(150, 150);
             this.Square33.TabIndex = 32;
             this.Square33.TabStop = false;
+            this.Square33.Click += new System.EventHandler(this.Square33_Click);
             // 
             // Square31
             // 
@@ -494,6 +510,7 @@
             this.Square32.Size = new System.Drawing.Size(150, 150);
             this.Square32.TabIndex = 30;
             this.Square32.TabStop = false;
+            this.Square32.Click += new System.EventHandler(this.Square32_Click);
             // 
             // Square28
             // 
@@ -502,6 +519,7 @@
             this.Square28.Size = new System.Drawing.Size(150, 150);
             this.Square28.TabIndex = 29;
             this.Square28.TabStop = false;
+            this.Square28.Click += new System.EventHandler(this.Square28_Click);
             // 
             // Square29
             // 
@@ -519,6 +537,7 @@
             this.Square30.Size = new System.Drawing.Size(150, 150);
             this.Square30.TabIndex = 27;
             this.Square30.TabStop = false;
+            this.Square30.Click += new System.EventHandler(this.Square30_Click);
             // 
             // Square27
             // 
@@ -536,6 +555,7 @@
             this.Square26.Size = new System.Drawing.Size(150, 150);
             this.Square26.TabIndex = 25;
             this.Square26.TabStop = false;
+            this.Square26.Click += new System.EventHandler(this.Square26_Click);
             // 
             // Square23
             // 
@@ -544,6 +564,7 @@
             this.Square23.Size = new System.Drawing.Size(150, 150);
             this.Square23.TabIndex = 24;
             this.Square23.TabStop = false;
+            this.Square23.Click += new System.EventHandler(this.Square23_Click);
             // 
             // Square24
             // 
@@ -579,6 +600,7 @@
             this.Square21.Size = new System.Drawing.Size(150, 150);
             this.Square21.TabIndex = 20;
             this.Square21.TabStop = false;
+            this.Square21.Click += new System.EventHandler(this.Square21_Click);
             // 
             // Square22
             // 
@@ -596,6 +618,7 @@
             this.Square19.Size = new System.Drawing.Size(150, 150);
             this.Square19.TabIndex = 18;
             this.Square19.TabStop = false;
+            this.Square19.Click += new System.EventHandler(this.Square19_Click);
             // 
             // Square18
             // 
@@ -613,6 +636,7 @@
             this.Square17.Size = new System.Drawing.Size(150, 150);
             this.Square17.TabIndex = 16;
             this.Square17.TabStop = false;
+            this.Square17.Click += new System.EventHandler(this.Square17_Click);
             // 
             // Square15
             // 
@@ -630,6 +654,7 @@
             this.Square16.Size = new System.Drawing.Size(150, 150);
             this.Square16.TabIndex = 14;
             this.Square16.TabStop = false;
+            this.Square16.Click += new System.EventHandler(this.Square16_Click);
             // 
             // Square12
             // 
@@ -638,6 +663,7 @@
             this.Square12.Size = new System.Drawing.Size(150, 150);
             this.Square12.TabIndex = 13;
             this.Square12.TabStop = false;
+            this.Square12.Click += new System.EventHandler(this.Square12_Click);
             // 
             // Square13
             // 
@@ -655,6 +681,7 @@
             this.Square14.Size = new System.Drawing.Size(150, 150);
             this.Square14.TabIndex = 11;
             this.Square14.TabStop = false;
+            this.Square14.Click += new System.EventHandler(this.Square14_Click);
             // 
             // Square11
             // 
@@ -672,6 +699,7 @@
             this.Square10.Size = new System.Drawing.Size(150, 150);
             this.Square10.TabIndex = 9;
             this.Square10.TabStop = false;
+            this.Square10.Click += new System.EventHandler(this.Square10_Click);
             // 
             // Square7
             // 
@@ -680,6 +708,7 @@
             this.Square7.Size = new System.Drawing.Size(150, 150);
             this.Square7.TabIndex = 8;
             this.Square7.TabStop = false;
+            this.Square7.Click += new System.EventHandler(this.Square7_Click);
             // 
             // Square8
             // 
@@ -715,6 +744,7 @@
             this.Square5.Size = new System.Drawing.Size(150, 150);
             this.Square5.TabIndex = 4;
             this.Square5.TabStop = false;
+            this.Square5.Click += new System.EventHandler(this.Square5_Click);
             // 
             // Square6
             // 
@@ -732,6 +762,7 @@
             this.Square3.Size = new System.Drawing.Size(150, 150);
             this.Square3.TabIndex = 2;
             this.Square3.TabStop = false;
+            this.Square3.Click += new System.EventHandler(this.Square3_Click);
             // 
             // Square2
             // 
@@ -749,6 +780,7 @@
             this.Square1.Size = new System.Drawing.Size(150, 150);
             this.Square1.TabIndex = 0;
             this.Square1.TabStop = false;
+            this.Square1.Click += new System.EventHandler(this.Square1_Click);
             // 
             // Form1
             // 

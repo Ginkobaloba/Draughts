@@ -10,18 +10,21 @@ namespace Draughts
     {
         public int gameID { get; set; }
         public int turn { get; set; }                                       
-        public List<List<int>> CheckerBoard = new List<List<int>>();
+        public List<List<int>> CheckerBoard= new List<List<int>>();
+        public List<List<bool>> SelectedStatus = new List<List<bool>>();
 
         public CheckerBoardArray()
         {
             for (int i = 0; i < 8; i++)
-            {
-                List<int> row = new List<int>();
+            {   List<bool> onerow = new List<bool>();
+                List<int> tworow = new List<int>();
                 for (int ii = 0; ii < 8; ii++)
                 {
-                    row.Add(0);
+                    onerow.Add(false);
+                    tworow.Add(0);
                 }
-                this.CheckerBoard.Add(row);
+                this.CheckerBoard.Add(tworow);
+                this.SelectedStatus.Add(onerow);
             }
         }
         public CheckerBoardArray serialization(GameInfo Gameinfo)
@@ -61,7 +64,7 @@ namespace Draughts
             this.CheckerBoard[7][3] = Gameinfo.square60;
             this.CheckerBoard[7][5] = Gameinfo.square62;
             this.CheckerBoard[7][7] = Gameinfo.square64;
-
+            
             return this;
         }
         public CheckerBoardArray ShallowCopy()
@@ -75,15 +78,17 @@ namespace Draughts
             {
                 for (int ii = 0; ii < 8; ii++)
                 {
+                    copy.SelectedStatus[i][ii] = this.SelectedStatus[i][ii];
                     copy.CheckerBoard[i][ii] = this.CheckerBoard[i][ii];
                 }
             }
-            
             return copy;
 
         }
         public CheckerBoardArray Clone() { return (CheckerBoardArray)this.MemberwiseClone(); }
         object ICloneable.Clone() { return Clone(); }
+
     }
 }
 
+    
