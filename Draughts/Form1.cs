@@ -59,10 +59,10 @@ namespace Draughts
                         currentGame = SetupInital(currentGame);
                         GC.Collect();
                         GC.WaitForFullGCComplete(-1);
-                    }
+                       }
 
-                }
-
+                } 
+                
 
 
             }
@@ -157,11 +157,388 @@ namespace Draughts
                 }
                 else
                 {
-                    //HumanMoveHighlight(clickedRow, clickedCol);
+                    HumanMoveHighlight(clickedRow, clickedCol);
                 }
 
             }
         }
+
+        public void HumanMoveHighlight(int firstRow, int firstCol)
+        {
+            List<List<int>> Spots = new List<List<int>>();
+
+
+
+            if (currentGame.CheckerBoard[firstRow][firstCol] > 0)
+            {
+                //diagonal right unpromoted or king
+                if (firstRow <= 6 && firstCol <= 6 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol + 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal left Unpromoted or promoted
+                if (firstRow <= 6 && firstCol >= 1 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal right back  king
+                if (firstRow >= 1 && firstCol <= 6 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal left back king 
+                if (firstRow >= 1 && firstCol >= 1 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal Jump right Unpromoted or promoted
+                if (firstRow <= 5 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal jump left Unpromoted or promoted
+                if (firstRow <= 5 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+
+                }
+
+                //diagonal Jump right king back
+                if (firstRow >= 2 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal jump left king back                                                       
+                if (firstRow >= 2 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right Unpromoted or promoted
+                if (firstRow <= 3 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol + 4] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left Unpromoted or promoted
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol - 4] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right then middle Unpromoted or promoted
+                if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left then middle Unpromoted or promoted
+                if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right back king
+                if (firstRow >= 4 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow - 4][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left back king
+                if (firstRow >= 4 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow - 4][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal double Jump right then middle back king
+                if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left then middle back king
+                if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right front sideways King
+                if (firstRow <= 5 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left right sideways king
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+
+                }
+
+                //diagonal double Jump right back sideways King
+                if (firstRow >= 2 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+
+                }
+
+                //diagonal double Jump left back sideways king
+                if (firstRow >= 2 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
+                {
+
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+
+                }
+            }
+            else if (currentGame.CheckerBoard[firstRow][firstCol] < 0)
+            {
+
+                //diagonal blue right unpromoted or king
+                if (firstRow >= 1 && firstCol <= 6 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow - 1);
+                    Spot.Add(firstCol + 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal blue left Unpromoted or promoted
+                if (firstRow >= 1 && firstCol >= 1 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal blue right back  king
+                if (firstRow <= 6 && firstCol <= 6 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal blue left back king 
+                if (firstRow <= 6 && firstCol >= 1 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal blue Jump right Unpromoted or promoted
+                if (firstRow >= 2 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal jump left Unpromoted or promoted
+                if (firstRow >= 2 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal Jump right king back
+                if (firstRow <= 5 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal jump left king back                                                       
+                if (firstRow <= 5 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right Unpromoted or promoted
+                if (firstRow >= 4 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol + 4] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left Unpromoted or promoted
+                if (firstRow >= 4 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol - 4] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right then middle Unpromoted or promoted
+                if (firstRow >= 4 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left then middle Unpromoted or promoted
+                if (firstRow >= 4 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol] == 0)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+
+                //diagonal double Jump right back king
+                if (firstRow <= 3 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left back king
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+                //diagonal double Jump right then middle back king
+                if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left then middle back king
+                if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right front sideways King
+                if (firstRow <= 5 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left right sideways king
+                if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump right back sideways King
+                if (firstRow >= 2 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+
+                //diagonal double Jump left back sideways king
+                if (firstRow >= 2 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
+                {
+                    List<int> Spot = new List<int>();
+                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstCol - 1);
+                    Spots.Add(Spot);
+                }
+            }
+
+           
+        }
+
+
         public void HumanMoveEval(int firstRow, int firstCol, int secondRow, int secondCol)
         {
             CheckerBoardArray PossibleMove = currentGame.ShallowCopy();
