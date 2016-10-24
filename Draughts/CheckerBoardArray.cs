@@ -85,6 +85,14 @@ namespace Draughts
             return copy;
 
         }
+        public void StoreAMove(CheckerBoardArray CheckerBoard)
+        {
+
+
+        }
+
+
+
         public CheckerBoardArray Clone() { return (CheckerBoardArray)this.MemberwiseClone(); }
         object ICloneable.Clone() { return Clone(); }
 

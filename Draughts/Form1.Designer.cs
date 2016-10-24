@@ -97,6 +97,7 @@
             this.Square3 = new System.Windows.Forms.PictureBox();
             this.Square2 = new System.Windows.Forms.PictureBox();
             this.Square1 = new System.Windows.Forms.PictureBox();
+            this.ckboxHints = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.Square64)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square56)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Square48)).BeginInit();
@@ -782,9 +783,21 @@
             this.Square1.TabStop = false;
             this.Square1.Click += new System.EventHandler(this.Square1_Click);
             // 
+            // ckboxHints
+            // 
+            this.ckboxHints.AutoSize = true;
+            this.ckboxHints.Location = new System.Drawing.Point(210, 1343);
+            this.ckboxHints.Name = "ckboxHints";
+            this.ckboxHints.Size = new System.Drawing.Size(116, 24);
+            this.ckboxHints.TabIndex = 68;
+            this.ckboxHints.Text = "Show Hints";
+            this.ckboxHints.UseMnemonic = false;
+            this.ckboxHints.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1253, 1599);
+            this.Controls.Add(this.ckboxHints);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.rdbtnAllAI);
             this.Controls.Add(this.rdbtn2player);
@@ -993,6 +1006,7 @@
         private System.Windows.Forms.RadioButton rdbtn2player;
         private System.Windows.Forms.RadioButton rdbtnAllAI;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.CheckBox ckboxHints;
     }
 }
 

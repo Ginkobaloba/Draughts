@@ -28,3 +28,17 @@ C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.updatedda
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.Updatedmodel.resources
 C:\Users\Drama\Desktop\Draughts\Draughts\obj\Debug\Draughts.Migrations.removedvirtuallist.resources
 C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\DotNeuralNet.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Controls.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Genetic.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Imaging.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Math.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Neuro.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Video.dll
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Controls.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Genetic.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Imaging.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Math.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Neuro.xml
+C:\Users\Drama\Desktop\Draughts\Draughts\bin\Debug\AForge.Video.xml

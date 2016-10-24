@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AForge;
+using AForge.Neuro;
+using AForge.Neuro.Learning;
+using AForge.Controls;
 
 namespace Draughts
 {

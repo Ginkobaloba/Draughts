@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 
 
+
+
 namespace Draughts
 {
     public partial class Form1 : Form , IDisposable
@@ -12,6 +14,7 @@ namespace Draughts
         private DatabaseContext db = new DatabaseContext();
         public bool GameStarted = false;
         CheckerBoardArray currentGame = new CheckerBoardArray();
+        bool playerOneTurn = false;
 
         public Form1()
         {
@@ -24,6 +27,7 @@ namespace Draughts
         private void btnStart_Click(object sender, EventArgs e)
         {
             GameStarted = true;
+            playerOneTurn = true;
 
             currentGame = SetupInital(currentGame);
           
@@ -157,7 +161,7 @@ namespace Draughts
                 }
                 else
                 {
-                    HumanMoveHighlight(clickedRow, clickedCol);
+                    
                 }
 
             }
@@ -169,7 +173,7 @@ namespace Draughts
 
 
 
-            if (currentGame.CheckerBoard[firstRow][firstCol] > 0)
+            if (currentGame.CheckerBoard[firstRow][firstCol] > 0 && playerOneTurn == true)
             {
                 //diagonal right unpromoted or king
                 if (firstRow <= 6 && firstCol <= 6 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] == 0)
@@ -191,15 +195,15 @@ namespace Draughts
                 if (firstRow >= 1 && firstCol <= 6 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 1);
+                    Spot.Add(firstCol + 1);
                     Spots.Add(Spot);
                 }
                 //diagonal left back king 
                 if (firstRow >= 1 && firstCol >= 1 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstRow - 1);
                     Spot.Add(firstCol - 1);
                     Spots.Add(Spot);
                 }
@@ -208,8 +212,8 @@ namespace Draughts
                 if (firstRow <= 5 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 2);
+                    Spot.Add(firstCol + 2);
                     Spots.Add(Spot);
                 }
 
@@ -217,8 +221,8 @@ namespace Draughts
                 if (firstRow <= 5 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 2);
+                    Spot.Add(firstCol - 2);
                     Spots.Add(Spot);
 
                 }
@@ -227,8 +231,8 @@ namespace Draughts
                 if (firstRow >= 2 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow -2);
+                    Spot.Add(firstCol +2);
                     Spots.Add(Spot);
                 }
 
@@ -236,8 +240,8 @@ namespace Draughts
                 if (firstRow >= 2 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 2);
+                    Spot.Add(firstCol - 2);
                     Spots.Add(Spot);
                 }
 
@@ -245,8 +249,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol + 4] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -254,8 +258,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol - 4] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
                 }
 
@@ -263,8 +267,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -272,8 +276,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -281,8 +285,8 @@ namespace Draughts
                 if (firstRow >= 4 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow - 4][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 4);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -290,16 +294,16 @@ namespace Draughts
                 if (firstRow >= 4 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 3] < 0 && currentGame.CheckerBoard[firstRow - 4][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 4);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
                 }
                 //diagonal double Jump right then middle back king
                 if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -307,8 +311,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] < 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -316,8 +320,8 @@ namespace Draughts
                 if (firstRow <= 5 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] < 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol + 3] < 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == 2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -326,8 +330,8 @@ namespace Draughts
                 {
 
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
 
                 }
@@ -337,8 +341,8 @@ namespace Draughts
                 {
 
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
 
                 }
@@ -348,13 +352,13 @@ namespace Draughts
                 {
 
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
 
                 }
             }
-            else if (currentGame.CheckerBoard[firstRow][firstCol] < 0)
+            else if (currentGame.CheckerBoard[firstRow][firstCol] < 0 && playerOneTurn == false)
             {
 
                 //diagonal blue right unpromoted or king
@@ -369,7 +373,7 @@ namespace Draughts
                 if (firstRow >= 1 && firstCol >= 1 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
+                    Spot.Add(firstRow - 1);
                     Spot.Add(firstCol - 1);
                     Spots.Add(Spot);
                 }
@@ -378,7 +382,7 @@ namespace Draughts
                 {
                     List<int> Spot = new List<int>();
                     Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstCol + 1);
                     Spots.Add(Spot);
                 }
                 //diagonal blue left back king 
@@ -394,8 +398,8 @@ namespace Draughts
                 if (firstRow >= 2 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 2);
+                    Spot.Add(firstCol + 2);
                     Spots.Add(Spot);
                 }
 
@@ -403,8 +407,8 @@ namespace Draughts
                 if (firstRow >= 2 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 2);
+                    Spot.Add(firstCol - 2);
                     Spots.Add(Spot);
                 }
 
@@ -412,8 +416,8 @@ namespace Draughts
                 if (firstRow <= 5 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 2);
+                    Spot.Add(firstCol + 2);
                     Spots.Add(Spot);
                 }
 
@@ -421,8 +425,8 @@ namespace Draughts
                 if (firstRow <= 5 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 2);
+                    Spot.Add(firstCol - 2);
                     Spots.Add(Spot);
                 }
 
@@ -430,8 +434,8 @@ namespace Draughts
                 if (firstRow >= 4 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol + 4] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 4);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -439,8 +443,8 @@ namespace Draughts
                 if (firstRow >= 4 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol - 4] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 4);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
                 }
 
@@ -448,8 +452,8 @@ namespace Draughts
                 if (firstRow >= 4 && firstCol <= 5 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -457,8 +461,8 @@ namespace Draughts
                 if (firstRow >= 4 && firstCol >= 2 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 3][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 4][firstCol] == 0)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow - 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -467,8 +471,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -476,16 +480,16 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
                 }
                 //diagonal double Jump right then middle back king
                 if (firstRow <= 3 && firstCol <= 5 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -493,8 +497,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol >= 2 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 3][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 4][firstCol] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow + 4);
+                    Spot.Add(firstCol);
                     Spots.Add(Spot);
                 }
 
@@ -502,8 +506,8 @@ namespace Draughts
                 if (firstRow <= 5 && firstCol <= 3 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -511,8 +515,8 @@ namespace Draughts
                 if (firstRow <= 3 && firstCol >= 4 && currentGame.CheckerBoard[firstRow + 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow + 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow + 1][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
                 }
 
@@ -520,8 +524,8 @@ namespace Draughts
                 if (firstRow >= 2 && firstCol <= 3 && currentGame.CheckerBoard[firstRow - 1][firstCol + 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol + 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol + 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol + 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol + 4);
                     Spots.Add(Spot);
                 }
 
@@ -529,22 +533,159 @@ namespace Draughts
                 if (firstRow >= 2 && firstCol >= 4 && currentGame.CheckerBoard[firstRow - 1][firstCol - 1] > 0 && currentGame.CheckerBoard[firstRow - 2][firstCol - 2] == 0 && currentGame.CheckerBoard[firstRow - 1][firstCol - 3] > 0 && currentGame.CheckerBoard[firstRow][firstCol - 4] == 0 && currentGame.CheckerBoard[firstRow][firstCol] == -2)
                 {
                     List<int> Spot = new List<int>();
-                    Spot.Add(firstRow + 1);
-                    Spot.Add(firstCol - 1);
+                    Spot.Add(firstRow);
+                    Spot.Add(firstCol - 4);
                     Spots.Add(Spot);
                 }
             }
 
-           
+            HighLightMoves(Spots);
         }
+        public void HighLightMoves(List<List<int>> spots)
+        {
+            foreach (var item in spots)
+            {
+                int col = item[0];
+                int row = item[1];
 
+                if (col == 0 && row == 0)
+                {
+                    Square1.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 0 && row == 2)
+                {
+                    Square3.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 0 && row == 4)
+                {
+                    Square5.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 0 && row == 6)
+                {
+                    Square7.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 1 && row == 1)
+                {
+                    Square10.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 1 && row == 3)
+                {
+                    Square12.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 1 && row == 5)
+                {
+                    Square14.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 1 && row == 7)
+                {
+                    Square16.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 2 && row == 0)
+                {
+                    Square17.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 2 && row == 2)
+                {
+                    Square19.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 2 && row == 4)
+                {
+                    Square21.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 2 && row == 6)
+                {
+                    Square23.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 3 && row == 1)
+                {
+                    Square26.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 3 && row == 3)
+                {
+                    Square28.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 3 && row == 5)
+                {
+                    Square30.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 3 && row == 7)
+                {
+                    Square32.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 4 && row == 0)
+                {
+                    Square33.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 4 && row == 2)
+                {
+                    Square35.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 4 && row == 4)
+                {
+                    Square37.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 4 && row == 6)
+                {
+                    Square39.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 5 && row == 1)
+                {
+                    Square42.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 5 && row == 3)
+                {
+                    Square44.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 5 && row == 5)
+                {
+                    Square46.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 5 && row == 7)
+                {
+                    Square48.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 6 && row == 0)
+                {
+                    Square49.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 6 && row == 2)
+                {
+                    Square51.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 6 && row == 4)
+                {
+                    Square53.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 6 && row == 6)
+                {
+                    Square55.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 7 && row == 1)
+                {
+                    Square58.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 7 && row == 3)
+                {
+                    Square60.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 7 && row == 5)
+                {
+                    Square62.BackgroundImage = Properties.Resources.green;
+                }
+                else if (col == 7 && row == 7)
+                {
+                    Square64.BackgroundImage = Properties.Resources.green;
+                }
+                this.Refresh();
+            }
+        }
 
         public void HumanMoveEval(int firstRow, int firstCol, int secondRow, int secondCol)
         {
             CheckerBoardArray PossibleMove = currentGame.ShallowCopy();
 
-            if (currentGame.CheckerBoard[firstRow][firstCol] > 0)
-            {
+            if (currentGame.CheckerBoard[firstRow][firstCol] > 0 && playerOneTurn == true)
+            {             
                 //diagonal right unpromoted or king
                 if (firstRow <= 6 && firstCol <= 6 && currentGame.CheckerBoard[firstRow + 1][firstCol + 1] == 0 && firstRow + 1 == secondRow && firstCol + 1 == secondCol)
                 {
@@ -796,7 +937,7 @@ namespace Draughts
 
                 }
             }
-            else if (currentGame.CheckerBoard[firstRow][firstCol] < 0)
+            else if (currentGame.CheckerBoard[firstRow][firstCol] < 0 && playerOneTurn == false)
             {
 
                 //diagonal blue right unpromoted or king
@@ -1016,7 +1157,13 @@ namespace Draughts
                     PossibleMove.CheckerBoard[firstRow][firstCol] = 0;
                 }
             }
-        
+
+            if (playerOneTurn == true)
+            {
+                playerOneTurn = false;
+            }
+            else
+                playerOneTurn = true;
 
             currentGame = PossibleMove.ShallowCopy();
             for (int i = 0; i < 8; i++)
@@ -1875,11 +2022,16 @@ namespace Draughts
 
         private void Square1_Click(object sender, EventArgs e)
         {
+            
             int row = 0;
             int col = 0;
-
+            LinkToGUI(currentGame);            
             currentGame.SelectedStatus[row][col] = true;
             HumanMoveInfo(row,col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
 
 
         }
@@ -1888,45 +2040,70 @@ namespace Draughts
         {
             int row = 0;
             int col = 2;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square5_Click(object sender, EventArgs e)
         {
             int row = 0;
             int col = 4;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square7_Click(object sender, EventArgs e)
         {
             int row = 0;
             int col = 6;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square10_Click(object sender, EventArgs e)
         {
             int row = 1;
             int col = 1;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square12_Click(object sender, EventArgs e)
         {
             int row = 1;
             int col = 3;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -1934,9 +2111,14 @@ namespace Draughts
         {
             int row = 1;
             int col = 5;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -1944,144 +2126,223 @@ namespace Draughts
         {
             int row = 1;
             int col = 7;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square17_Click(object sender, EventArgs e)
         {
             int row = 2;
             int col = 0;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
-        }
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
 
+        }
 
         private void Square19_Click(object sender, EventArgs e)
         {
             int row = 2;
             int col = 2;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square21_Click(object sender, EventArgs e)
         {
             int row = 2;
             int col = 4;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square23_Click(object sender, EventArgs e)
         {
             int row = 2;
             int col = 6;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square26_Click(object sender, EventArgs e)
         {
             int row = 3;
             int col = 1;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square28_Click(object sender, EventArgs e)
         {
             int row = 3;
             int col = 3;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square30_Click(object sender, EventArgs e)
         {
             int row = 3;
             int col = 5;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square32_Click(object sender, EventArgs e)
         {
             int row = 3;
             int col = 7;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
         private void Square33_Click(object sender, EventArgs e)
         {
             int row = 4;
             int col = 0;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square35_Click(object sender, EventArgs e)
         {
             int row = 4;
             int col = 2;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square37_Click(object sender, EventArgs e)
         {
             int row = 4;
             int col = 4;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square39_Click(object sender, EventArgs e)
         {
             int row = 4;
             int col = 6;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square42_Click(object sender, EventArgs e)
         {
             int row = 5;
             int col = 1;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square44_Click(object sender, EventArgs e)
         {
             int row = 5;
             int col = 3;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square46_Click(object sender, EventArgs e)
         {
             int row = 5;
             int col = 5;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -2089,18 +2350,28 @@ namespace Draughts
         {
             int row = 5;
             int col = 7;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square49_Click(object sender, EventArgs e)
         {
             int row = 6;
             int col = 0;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -2108,9 +2379,14 @@ namespace Draughts
         {
             int row = 6;
             int col = 2;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -2118,18 +2394,28 @@ namespace Draughts
         {
             int row = 6;
             int col = 4;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square55_Click(object sender, EventArgs e)
         {
             int row = 6;
             int col = 6;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -2137,18 +2423,28 @@ namespace Draughts
         {
             int row = 7;
             int col = 1;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square60_Click(object sender, EventArgs e)
         {
             int row = 7;
             int col = 3;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
 
@@ -2156,18 +2452,28 @@ namespace Draughts
         {
             int row = 7;
             int col = 5;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
 
         private void Square64_Click(object sender, EventArgs e)
         {
             int row = 7;
             int col = 7;
-
+            LinkToGUI(currentGame);
             currentGame.SelectedStatus[row][col] = true;
-            HumanMoveInfo(row,col);
+            HumanMoveInfo(row, col);
+            if (ckboxHints.Checked == true)
+            {
+            HumanMoveHighlight(row, col);
+            }
+
         }
         public void DisposeOldImages()
         {
@@ -2270,5 +2576,6 @@ namespace Draughts
             }
 
         }
+
     }
 }
